@@ -2,7 +2,8 @@ import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn,
 import bcrypt from 'bcrypt';
 import Role from "./Role.js";
 import { Order } from "./Order.js";
-import { Cart } from "./Cart.js";
+import { ShoppingCart } from "./ShoppingCart.js";
+import { PaymentInfo } from "./PaymentInfo.js";
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -37,10 +38,14 @@ export class User extends BaseEntity {
     @JoinTable()
     roles: Role[];
 
-    @OneToMany(() => Order, order => order.userId)
+    @OneToMany(() => Order, order => order.user)
     orders: Order[]
 
-    @OneToOne(() => Cart)// add this here or in User entity 
+    @OneToOne(() => ShoppingCart)// add this here or in User entity 
     @JoinColumn()
-    cart: Cart
+    cart: ShoppingCart
+
+    @OneToOne(() => PaymentInfo)// add this here or in User entity 
+    @JoinColumn()
+    paymentInfo: PaymentInfo
 }

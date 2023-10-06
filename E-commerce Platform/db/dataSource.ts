@@ -4,9 +4,11 @@ import Role from "./entities/Role.js";
 import { Product } from "./entities/Product.js";
 import { Permission } from "./entities/Permission.js";
 import { Order } from "./entities/Order.js";
-import { Cart } from "./entities/Cart.js";
-import { BuyerProfile } from "./entities/BuyerProfile.js";
-import { AdminProfile } from "./entities/AdminProfile.js";
+import { ShoppingCart } from "./entities/ShoppingCart.js";
+import { OrderItems } from "./entities/OrderItems.js";
+import { ShoppingCartItem } from "./entities/ShoppingCartItems.js";
+import { PaymentInfo } from "./entities/PaymentInfo.js";
+
 
 const dataSource = new DataSource({
   type: 'mysql',
@@ -21,9 +23,10 @@ const dataSource = new DataSource({
     Product,
     Permission,
     Order,
-    Cart,
-    BuyerProfile,
-    AdminProfile],
+    ShoppingCart,
+    OrderItems,
+    ShoppingCartItem,
+    PaymentInfo],
   // migrations: ['./**/migration/*.ts'],
   synchronize: true,
   logging: false

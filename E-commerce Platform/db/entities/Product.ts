@@ -7,7 +7,7 @@ export class Product extends BaseEntity {
     id: string
 
     @Column({ length: 255, nullable: false })
-    productName: string
+    name: string
 
     @Column()
     description: string
@@ -19,7 +19,7 @@ export class Product extends BaseEntity {
     quantity: number
 
     @Column({ nullable: false })
-    image: string //check if the type true (array of urls not supported from sql)
+    // image: JSON//check if the type true (array of urls not supported from sql)
 
     @CreateDateColumn({
         type: 'timestamp',

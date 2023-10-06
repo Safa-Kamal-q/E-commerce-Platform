@@ -1,8 +1,6 @@
-import { Column, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { BaseEntity } from "typeorm";
-import { Entity } from "typeorm";
+import { Column, JoinColumn,BaseEntity , JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Entity } from "typeorm";
 import { User } from "./User.js";
-import { Product } from "./Product.js";
+import { ShoppingCartItem } from "./ShoppingCartItems.js";
 
 @Entity('orders')
 export class Order extends BaseEntity {
@@ -20,6 +18,9 @@ export class Order extends BaseEntity {
     })
     status: 'Pending' | 'Shipped' | 'Delivered'
 
+    @Column()
+    totalAmount: number //This is the total items 
+
     @ManyToOne(
         () => User,
         user => user.orders,
@@ -31,7 +32,8 @@ export class Order extends BaseEntity {
     )
     user: string | User //is this type correct? //userId in database
 
-    @ManyToMany(() => Product, { eager: true })
-    @JoinTable()
-    products: Product[]
+    @OneToMany(() => ShoppingCartItem, cartItem => cartItem.cart, { cascade: true })
+    @JoinColumn()
+    cartItems: ShoppingCartItem[];
+    
 }
