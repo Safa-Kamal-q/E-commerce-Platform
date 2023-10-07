@@ -10,7 +10,7 @@ export default class Role extends BaseEntity {
         unique: true,
         type: 'enum',
         enum: ['admin', 'buyer', 'seller', 'guest'],
-        default: 'guestUser'
+        default: 'guest'
     })
     name: 'admin' | 'buyer' | 'seller' | 'guest'
 
