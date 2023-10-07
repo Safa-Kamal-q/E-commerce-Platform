@@ -1,5 +1,6 @@
 import express from 'express';
 import { NSUser } from '../../@types/user.js';
+import Role from '../../db/entities/Role.js';
 
 const authorize = (api: string) => {
   return (
@@ -7,7 +8,7 @@ const authorize = (api: string) => {
     res: express.Response,
     next: express.NextFunction
   ) => {
-    const permissions: NSUser.Permission[] = res.locals.user?.role?.permissions || [];
+    const permissions: NSUser.Permission[] = res.locals.user?.roles?.flatMap((role:Role)=> role.permissions) || [];
     if (permissions.filter(p => p.name === api).length > 0) {
       next();
     } else {

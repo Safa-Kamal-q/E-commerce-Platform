@@ -28,6 +28,14 @@ export class User extends BaseEntity {
     @Column({ nullable: false /*is this true since I have guest user ?*/ })
     password: string;
 
+    @Column({
+        unique: true,
+        type: 'enum',
+        enum: ['admin', 'buyer', 'seller', 'guest'],
+        default: 'guest'
+    })
+    type: 'admin' | 'buyer' | 'seller' | 'guest'
+
     @CreateDateColumn({
         type: 'timestamp',
         default: () => "CURRENT_TIMESTAMP()"

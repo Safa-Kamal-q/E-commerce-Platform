@@ -9,10 +9,10 @@ export default class Role extends BaseEntity {
     @Column({
         unique: true,
         type: 'enum',
-        enum: ['guestUser', 'registeredUser', 'administrator'],
+        enum: ['admin', 'buyer', 'seller', 'guest'],
         default: 'guestUser'
     })
-    name: 'guestUser' | 'registeredUser' | 'administrator'
+    name: 'admin' | 'buyer' | 'seller' | 'guest'
 
     @ManyToMany(() => Permission, { cascade: true, eager: true })
     @JoinTable()

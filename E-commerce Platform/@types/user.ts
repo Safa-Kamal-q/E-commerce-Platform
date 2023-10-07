@@ -1,27 +1,37 @@
 
 export namespace NSUser {
-  export enum Type {
+  export enum UserType {
     seller = 'seller',
     buyer = 'buyer',
     admin = 'admin',
+    guest = 'guest'
   }
 
-  export interface Item {
+  export interface SingleUser {
     id: string;
-    fullName: string;
+    userName: string;
     email: string;
     password: string;
-    description?: string;
-    type: Type;
+    country: string,
+    type: UserType,
     createdAt: Date;
+    roles: string[]
+    orders: string[]
+    cart?: string //it will be id for single cart 
+    paymentInfo?: string  //it will be id for single paymentInfo
+
+    fullBuyerName : string 
+    phoneNumber: number 
+    city: string 
+    fullAddress: string 
   }
 
   export interface Role {
     id: number;
-    name: string;
-    permissions: number[];
+    name: UserType;
+    permissions: string[];
   }
-  
+
   export interface Permission {
     id: number;
     name: string;

@@ -3,19 +3,19 @@ import express from 'express';
 import mysql from 'mysql';
 import dotenv from 'dotenv';
 import "reflect-metadata"
-import  { initDB } from './db/dataSource.js';
-
+import { initDB } from './db/dataSource.js';
+import usersRouter from './routers/userRouter.js'
 const app = express();
 const PORT = 3000;
 app.use(express.json());
 dotenv.config();
 
 const dbConnection = mysql.createPool({
-  host: process.env.DB_HOST || '', 
+  host: process.env.DB_HOST || '',
   port: Number(process.env.DB_PORT) || 3306,
   user: process.env.DB_USER || '',
-  password: process.env.DB_PASSWORD || '', 
-  database: process.env.DB_NAME || '', 
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || '',
 });
 
 // Test the database connection
@@ -28,9 +28,12 @@ dbConnection.getConnection((err, connection) => {
   }
 });
 
+
 app.get('/', (req, res) => {
   res.send('Server UP!');
 });
+
+app.use('/users', usersRouter);
 
 app.use((req, res) => {
   res.status(404).send("You requested something I don't have :(");
