@@ -13,46 +13,46 @@ app.use(express.json());
 dotenv.config();
 
 
-AWS.config.update({
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  region: process.env.AWS_REGION,
-});
+// AWS.config.update({
+//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//   region: process.env.AWS_REGION,
+// });
 
-const s3 = new AWS.S3(); // Create an S3 instance
+// const s3 = new AWS.S3(); // Create an S3 instance
 
 
-// Configure Multer for S3
-const upload = multer({
-  storage: multer.memoryStorage(), // Use memory storage to temporarily store the file
-});
+// // Configure Multer for S3
+// const upload = multer({
+//   storage: multer.memoryStorage(), // Use memory storage to temporarily store the file
+// });
 
-// Define a route to handle file uploads
-app.post('/upload', upload.single('image'), (req, res) => {
-  const file = req.file;
+// // Define a route to handle file uploads
+// app.post('/upload', upload.single('image'), (req, res) => {
+//   const file = req.file;
 
-  if (!file) {
-    return res.status(400).send('No file uploaded.');
-  }
+//   if (!file) {
+//     return res.status(400).send('No file uploaded.');
+//   }
 
-  // Upload the file to S3
-  const params = {
-    Bucket: 'my-ecommerce-files',
-    Key: file.originalname, // Use the original file name as the key
-    Body: file.buffer,
-    ACL: 'public-read', // Set ACL for public access
-  };
+//   // Upload the file to S3
+//   const params = {
+//     Bucket: 'my-ecommerce-files',
+//     Key: file.originalname, // Use the original file name as the key
+//     Body: file.buffer,
+//     ACL: 'public-read', // Set ACL for public access
+//   };
 
-  s3.upload(params, (err: any, data: { Location: any; }) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Error uploading file.');
-    }
+//   s3.upload(params, (err: any, data: { Location: any; }) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).send('Error uploading file.');
+//     }
 
-    // Respond with the URL of the uploaded file
-    res.json({ url: data.Location });
-  });
-});
+//     // Respond with the URL of the uploaded file
+//     res.json({ url: data.Location });
+//   });
+// });
 
 
 const dbConnection = mysql.createPool({
