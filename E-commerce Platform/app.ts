@@ -1,5 +1,7 @@
 import './config.js';
 import express from 'express';
+import * as multer from 'multer';
+import * as AWS from 'aws-sdk'; // Import AWS SDK
 import mysql from 'mysql';
 import dotenv from 'dotenv';
 import "reflect-metadata"
@@ -9,6 +11,17 @@ const app = express();
 const PORT = 3000;
 app.use(express.json());
 dotenv.config();
+
+
+AWS.config.update({
+  secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
+  accessKeyId: 'YOUR_ACCESS_KEY_ID',
+  region: 'YOUR_AWS_REGION',
+});
+
+
+const s3 = new AWS.S3(); // Create an S3 instance
+
 
 const dbConnection = mysql.createPool({
   host: process.env.DB_HOST || '',
