@@ -11,6 +11,5 @@ export class ShoppingCart extends BaseEntity {
     totalPrice: number
 
     @OneToMany(() => ShoppingCartItem, cartItem => cartItem.cart, { cascade: true })
-    @JoinColumn()
     cartItems: ShoppingCartItem[];
 }

@@ -1,6 +1,6 @@
 import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from 'bcrypt';
-import Role from "./Role.js";
+import {Role}  from "./Role.js";
 import { Order } from "./Order.js";
 import { ShoppingCart } from "./ShoppingCart.js";
 import { PaymentInfo } from "./PaymentInfo.js";
@@ -29,7 +29,6 @@ export class User extends BaseEntity {
     password: string;
 
     @Column({
-        unique: true,
         type: 'enum',
         enum: ['admin', 'buyer', 'seller', 'guest'],
         default: 'guest'

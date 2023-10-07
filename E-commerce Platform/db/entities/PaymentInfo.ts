@@ -6,7 +6,7 @@ export class PaymentInfo extends BaseEntity{
     id : string 
 
     @Column({ nullable: false})
-    fullBuyerName : string 
+    nameForReceipt : string 
 
     @Column({ nullable: false})
     phoneNumber: number 
@@ -16,4 +16,6 @@ export class PaymentInfo extends BaseEntity{
 
     @Column({ nullable: false})
     fullAddress: string 
+
+    //we must add attribute for the way of payment 
 }

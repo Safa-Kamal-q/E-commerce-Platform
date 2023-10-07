@@ -27,13 +27,14 @@ export namespace NSUser {
   }
 
   export interface Role {
-    id: number;
+    id: string;
     name: UserType;
-    permissions: string[];
+    permissions: number [];
   }
 
   export interface Permission {
     id: number;
     name: string;
   }
+
 }

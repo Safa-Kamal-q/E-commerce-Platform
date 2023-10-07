@@ -2,7 +2,7 @@ import { Column, JoinTable, PrimaryGeneratedColumn, ManyToMany, BaseEntity, Enti
 import { Permission } from "./Permission.js";
 
 @Entity('roles')
-export default class Role extends BaseEntity {
+export class Role extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 

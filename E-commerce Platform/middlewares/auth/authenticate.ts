@@ -7,13 +7,11 @@ const authenticate = async (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  const token = req.headers['authorization'] || req.cookies['token'] || '';
+  const token = req.headers['authorization'] || '';  
   let tokenIsValid;
   try {
     tokenIsValid = jwt.verify(token, process.env.SECRET_KEY || '');
-  } catch (error) {
-    console.log(error)
-  }
+  } catch (error) { }
 
   if (tokenIsValid) {
     const decoded = jwt.decode(token, { json: true });
