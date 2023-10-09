@@ -8,6 +8,7 @@ import { ShoppingCart } from "../db/entities/ShoppingCart.js";
 import { PaymentInfo } from "../db/entities/PaymentInfo.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { SellerProfile } from "../db/entities/SellerProfile.js";
 
 //when the type is seller it will build paymentInfo
 //we will build cart for all user type except admin 
@@ -21,12 +22,13 @@ const insertUser = async (payload: NSUser.SingleUser) => {
             newUser.password = payload.password
             newUser.country = payload.country
             newUser.type = payload.type
+            newUser.phoneNumber= payload.phoneNumber
 
             //the admin user just to manage the system so he hasn't orders, and has all roles by default 
             if (newUser.type !== 'admin') {
                 newUser.roles = await Role.findBy({
                     id: In(payload.roles)
-                }) ;
+                });
 
                 newUser.orders = await Order.findBy({
                     id: In(payload.orders)
@@ -42,13 +44,25 @@ const insertUser = async (payload: NSUser.SingleUser) => {
 
             if (newUser.type === 'buyer') {
                 const paymentInfo = PaymentInfo.create({
-                    nameForReceipt: payload.fullBuyerName,
-                    phoneNumber: payload.phoneNumber,
+                    nameForReceipt: payload.nameForReceipt,
                     city: payload.city,
                     fullAddress: payload.fullAddress
                 })
                 newUser.paymentInfo = paymentInfo
                 await transaction.save(paymentInfo);
+            }
+
+            if (newUser.type === 'seller') {
+                const sellerProfile = SellerProfile.create({
+                    identityNumber: payload.identityNumber,
+                    nickName: payload.nickName,
+                    shopName: payload.shopName,
+                    accountNumber: payload.accountNumber,
+                    accountType: payload.accountType,
+                    shippingLocation: payload.shippingLocation
+                })
+                newUser.sellerProfile = sellerProfile
+                await transaction.save(sellerProfile);
             }
 
             await transaction.save(newUser);

@@ -1,9 +1,10 @@
 import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from 'bcrypt';
-import {Role}  from "./Role.js";
+import { Role } from "./Role.js";
 import { Order } from "./Order.js";
 import { ShoppingCart } from "./ShoppingCart.js";
 import { PaymentInfo } from "./PaymentInfo.js";
+import { SellerProfile } from "./SellerProfile.js";
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -35,6 +36,10 @@ export class User extends BaseEntity {
     })
     type: 'admin' | 'buyer' | 'seller' | 'guest'
 
+    //length: 10
+    @Column({ nullable: false})
+    phoneNumber: number 
+
     @CreateDateColumn({
         type: 'timestamp',
         default: () => "CURRENT_TIMESTAMP()"
@@ -55,4 +60,8 @@ export class User extends BaseEntity {
     @OneToOne(() => PaymentInfo)// add this here or in User entity 
     @JoinColumn()
     paymentInfo: PaymentInfo
+
+    @OneToOne(() => SellerProfile)// add this here or in User entity 
+    @JoinColumn()
+    sellerProfile: SellerProfile
 }

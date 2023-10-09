@@ -11,13 +11,9 @@ const insertRole = async (payload: NSUser.Role) => {
         
         role.name = payload.name;
         
-        const pe = await Permission.findBy({
+        role.permissions = await Permission.findBy({
             id: In(payload.permissions)
         })
-        console.log("***************************")
-        console.log(pe)
-        console.log("***************************")
-        role.permissions = pe
         await role.save()
         return role
     } catch (error) {
