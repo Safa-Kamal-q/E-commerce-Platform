@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "./Product.js";
 
 @Entity('seller_profile')
 export class SellerProfile extends BaseEntity{
@@ -30,5 +31,8 @@ export class SellerProfile extends BaseEntity{
     //This if our store offer shipping from buyer location(the seller doesn't bring his orders to our store by himself)
     @Column({ nullable: false})
     shippingLocation: string 
+
+    @OneToMany(() => Product, product => product.sellerProfile)
+    product: Product[]
     
 }

@@ -11,6 +11,7 @@ import { initDB } from './db/dataSource.js';
 import usersRouter from './routers/authRouter.js'
 import roleRouter from './routers/roleRouter.js'
 import permissionRouter from './routers/permissionRouter.js'
+import productRouter from './routers/productRouter.js'
 
 const app = express();
 const PORT = 3000;
@@ -89,6 +90,7 @@ app.get('/', (req, res) => {
 app.use('/users', usersRouter);
 app.use('/roles', roleRouter)
 app.use('/permissions', permissionRouter)
+app.use('/products', productRouter)
 
 app.use((req, res) => {
   res.status(404).send("You requested something I don't have :(");

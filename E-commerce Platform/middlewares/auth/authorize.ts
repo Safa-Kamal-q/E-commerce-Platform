@@ -1,5 +1,5 @@
 import express from 'express';
-import { NSUser } from '../../@types/user.js';
+import { NSUser } from '../../@types/userType.js';
 import { Role } from '../../db/entities/Role.js';
 
 const authorize = (api: string) => {

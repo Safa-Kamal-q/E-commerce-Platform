@@ -1,5 +1,5 @@
 import { In } from "typeorm";
-import { NSUser } from "../@types/user.js";
+import { NSUser } from "../@types/userType.js";
 import dataSource from "../db/dataSource.js";
 import { Role } from "../db/entities/Role.js";
 import { User } from "../db/entities/User.js";

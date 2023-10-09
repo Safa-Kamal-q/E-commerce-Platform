@@ -53,7 +53,7 @@ const validateUser = async (req: express.Request, res: express.Response, next: N
         }
     }
 
-    if (user.phoneNumber.length < 10 && user.phoneNumber) {
+    if ( user.phoneNumber && user.phoneNumber.length !== 10 ) {
         errorList.push('The phone number length should be 10 character')
     }
     
@@ -65,7 +65,7 @@ const validateUser = async (req: express.Request, res: express.Response, next: N
         errorList.push("The entered email already has an account, please use a different email")
     }
 
-    if (user.password.length < 6 && user.password) {
+    if (user.password && user.password.length < 6 ) {
         errorList.push('The password length should at least be 6')
     }
 

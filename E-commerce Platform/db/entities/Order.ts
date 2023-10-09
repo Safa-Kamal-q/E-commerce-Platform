@@ -33,7 +33,6 @@ export class Order extends BaseEntity {
     user: string | User //is this type correct? //userId in database
 
     @OneToMany(() => ShoppingCartItem, cartItem => cartItem.cart, { cascade: true })
-
     cartItems: ShoppingCartItem[];
     
 }

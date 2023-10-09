@@ -1,4 +1,4 @@
-import { NSUser } from "../@types/user.js";
+import { NSUser } from "../@types/userType.js";
 import { Permission } from "../db/entities/Permission.js";
 
 const insertPermission = async (payload: NSUser.Permission) => {

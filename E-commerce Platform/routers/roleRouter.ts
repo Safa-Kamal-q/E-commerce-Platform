@@ -25,6 +25,7 @@ router.post('/insertRole',authenticate, authorize('POST_roles/insertRole'),  asy
     if(!role.permissions){
         res.status(400).send('Add permission for the role')
     }
+
     ///
     
     insertRole(role).then((data)=>{

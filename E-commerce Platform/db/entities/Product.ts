@@ -1,4 +1,5 @@
-import { CreateDateColumn, PrimaryGeneratedColumn, Column, BaseEntity, Entity } from "typeorm";
+import { CreateDateColumn, PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne } from "typeorm";
+import { SellerProfile } from "./SellerProfile.js";
 
 
 @Entity('products')
@@ -7,7 +8,7 @@ export class Product extends BaseEntity {
     id: string
 
     @Column({ length: 255, nullable: false })
-    name: string
+    title: string
 
     @Column()
     description: string
@@ -20,10 +21,22 @@ export class Product extends BaseEntity {
 
     @Column({ nullable: false })
     // image: JSON//check if the type true (array of urls not supported from sql)
+    image: string// need to fix it 
 
     @CreateDateColumn({
         type: 'timestamp',
         default: () => "CURRENT_TIMESTAMP()"
     })
     createdAt: Date;
+
+    @ManyToOne(
+        () => SellerProfile,
+        seller => seller.product,
+        {
+            cascade: true,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        }
+    )
+    sellerProfile: string | SellerProfile //is this type correct? //userId in database
 }

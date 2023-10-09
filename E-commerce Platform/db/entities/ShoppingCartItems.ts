@@ -10,7 +10,13 @@ export class ShoppingCartItem extends BaseEntity {
     @ManyToOne(() => ShoppingCart, cart => cart.cartItems)
     cart: ShoppingCart;
 
-    @ManyToOne(() => Product)
+    @ManyToOne(() => Product,
+        {
+            cascade: true,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        }
+    )
     @JoinColumn()
     product: Product;
 
