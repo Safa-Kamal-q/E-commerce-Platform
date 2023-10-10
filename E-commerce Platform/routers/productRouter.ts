@@ -4,13 +4,12 @@ import { validateProduct } from '../middlewares/validation/product.js'
 import { authenticate } from '../middlewares/auth/authenticate.js'
 import { authorize } from '../middlewares/auth/authorize.js'
 import { SellerProfile } from '../db/entities/SellerProfile.js'
-import { Product } from '../db/entities/Product.js'
 
 const router = express.Router()
 
 router.post(
-    '/insertProduct',
-    authenticate, authorize("POST_products/insertProduct"), validateProduct,
+    '/',
+    authenticate, authorize("POST_products/"), validateProduct,
     (req, res) => {
         insertProduct(req.body).then(data => {
             res.status(201).send('The product added successfully')
@@ -19,7 +18,7 @@ router.post(
         })
     })
 
-router.get('/allProduct', authenticate, authorize('GET_products/allProduct'), (req, res) => {
+router.get('/', authenticate, authorize('GET_products/'), (req, res) => {
     getProducts().then(data => {
         res.status(201).send(data)
     }).catch(err => {
@@ -38,8 +37,8 @@ router.get('/:id', authenticate, authorize('GET_products/:id'), (req, res) => {
 
 
 router.get(
-    '/sellerProduct/:sellerId',
-    authenticate, authorize('GET_products/sellerProduct/:sellerId'),
+    '/seller-products/:seller-id',
+    authenticate, authorize('GET_products/seller-products/:seller-id'),
     async (req, res) => {
         const id = req.params.sellerId
 
@@ -59,12 +58,12 @@ router.get(
         }
     })
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/:id', authenticate, authorize('DELETE_products/:id'), async (req, res) => {
     const id = req.params.id
     deleteProduct(id, res);
 });
 
-router.put('/update/:id', async (req, res) => {
+router.put('/:id', authenticate, authorize('PUT_products/:id'), async (req, res) => {
     const id = req.params.id
     updateProduct(id, req.body, res)
 })

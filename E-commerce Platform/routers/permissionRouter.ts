@@ -3,15 +3,15 @@ import { authenticate } from '../middlewares/auth/authenticate.js';
 import { authorize } from '../middlewares/auth/authorize.js';
 import { getPermission, getPermissionByID, insertPermission } from '../controllers/permissionController.js';
 
-const router= express.Router();
+const router = express.Router();
 
-router.post('/insertPermission',authenticate, authorize('POST_permissions/insertPermission'),  (req, res)=>{
-    const permission= req.body
-    if(!permission.name){
+router.post('/', authenticate, authorize('POST_permissions/'), (req, res) => {
+    const permission = req.body
+    if (!permission.name) {
         res.status(400).send('the name of permission required')
     }
 
-    insertPermission(permission).then(()=>{
+    insertPermission(permission).then(() => {
         res.status(201).send('Permission added successfully');
     }).catch(err => {
         res.status(500).send(err)
@@ -20,19 +20,19 @@ router.post('/insertPermission',authenticate, authorize('POST_permissions/insert
 
 // authorize('GET_permissions/allPermission'),
 // , 
-router.get('/allPermissions',authenticate,(req, res)=>{
-    getPermission().then(data=>{
+router.get('/', authenticate, authorize('GET_permissions/'), (req, res) => {
+    getPermission().then(data => {
         res.status(201).send(data)
-    }).catch(err=>{
+    }).catch(err => {
         res.status(500).send(err)
     })
 })
 
-router.get('/:id',authenticate, authorize('GET_permissions/:id'), (req, res)=>{
-    const id= Number(req.params.id)
-    getPermissionByID(id).then(data=>{
+router.get('/:id', authenticate, authorize('GET_permissions/:id'), (req, res) => {
+    const id = Number(req.params.id)
+    getPermissionByID(id).then(data => {
         res.status(201).send(data)
-    }).catch(err=>{
+    }).catch(err => {
         console.log(err)
         res.status(500).send("Something went wrong")
     })
