@@ -4,4 +4,11 @@ export namespace NSCart{
         totalPrice: number;
         cartItems: string[];
     }
+
+    export interface cartItem{
+        id: string 
+        cart: string 
+        product: string 
+        quantity: number
+    }
 }

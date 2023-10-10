@@ -8,7 +8,7 @@ export class ShoppingCartItem extends BaseEntity {
     id: string
 
     @ManyToOne(() => ShoppingCart, cart => cart.cartItems)
-    cart: ShoppingCart;
+    cart: string | ShoppingCart;
 
     @ManyToOne(() => Product,
         {
@@ -18,7 +18,7 @@ export class ShoppingCartItem extends BaseEntity {
         }
     )
     @JoinColumn()
-    product: Product;
+    product:  string | Product;
 
     @Column()
     quantity: number;

@@ -72,7 +72,6 @@ const updateProduct = async (id: string, payload: NSProduct.Item, res: express.R
         console.log(error)
         res.status(500).send("Something went wrong")
     }
-
 }
 
 export {

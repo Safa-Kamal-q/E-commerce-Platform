@@ -37,10 +37,10 @@ router.get('/:id', authenticate, authorize('GET_products/:id'), (req, res) => {
 
 
 router.get(
-    '/seller-products/:seller-id',
-    authenticate, authorize('GET_products/seller-products/:seller-id'),
+    '/seller-products/:id',
+    authenticate, authorize('GET_products/seller-products/:id'),
     async (req, res) => {
-        const id = req.params.sellerId
+        const id = req.params.Id
 
         const existingSellerProfile = await SellerProfile.findOne({
             where: { id },
