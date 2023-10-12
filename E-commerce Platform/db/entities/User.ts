@@ -37,8 +37,8 @@ export class User extends BaseEntity {
     type: 'admin' | 'buyer' | 'seller' | 'guest'
 
     //length: 10
-    @Column({ nullable: false})
-    phoneNumber: number 
+    @Column({ nullable: false })
+    phoneNumber: number
 
     @CreateDateColumn({
         type: 'timestamp',
@@ -49,9 +49,6 @@ export class User extends BaseEntity {
     @ManyToMany(() => Role, { eager: true })
     @JoinTable()
     roles: Role[];
-
-    @OneToMany(() => Order, order => order.user)
-    orders: Order[]
 
     @OneToOne(() => ShoppingCart)// add this here or in User entity 
     @JoinColumn()

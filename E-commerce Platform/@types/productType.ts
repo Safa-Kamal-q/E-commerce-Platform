@@ -3,7 +3,7 @@ export namespace NSProduct{
         id: string
         title: string 
         description: string
-        price: string
+        price:  number
         quantity: number
         createdAt: Date;
         image: string 

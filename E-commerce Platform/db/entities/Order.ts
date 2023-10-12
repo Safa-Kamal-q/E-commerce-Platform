@@ -1,6 +1,7 @@
-import { Column, JoinColumn,BaseEntity , JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, BaseEntity, ManyToOne, PrimaryGeneratedColumn, Entity, ManyToMany, JoinTable } from "typeorm";
 import { User } from "./User.js";
-import { ShoppingCartItem } from "./ShoppingCartItems.js";
+import { Product } from "./Product.js";
+import { PaymentInfo } from "./PaymentInfo.js";
 
 @Entity('orders')
 export class Order extends BaseEntity {
@@ -18,21 +19,22 @@ export class Order extends BaseEntity {
     })
     status: 'Pending' | 'Shipped' | 'Delivered'
 
-    @Column()
-    totalAmount: number //This is the total items 
+    @Column('simple-json')
+    productQuantities: { productId: string; quantity: number }[];
 
     @ManyToOne(
-        () => User,
-        user => user.orders,
+        () => PaymentInfo,
+        paymentInfo => paymentInfo.orders,
         {
             cascade: true,
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         }
     )
-    user: string | User //is this type correct? //userId in database
+    paymentInfo: string | PaymentInfo //userId in database
 
-    @OneToMany(() => ShoppingCartItem, cartItem => cartItem.cart, { cascade: true })
-    cartItems: ShoppingCartItem[];
-    
+    @ManyToMany(() => Product, { eager: true })
+    @JoinTable()
+    products: Product[];
+
 }

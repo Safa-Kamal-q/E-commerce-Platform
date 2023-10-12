@@ -8,7 +8,7 @@ const validateUser = async (req: express.Request, res: express.Response, next: N
     const values = ['userName', 'password', 'email', 'country', 'type', 'phoneNumber'];
     const paymentValue = ['nameForReceipt', 'phoneNumber', 'city', 'fullAddress']
     const sellerProfileValues = ['identityNumber', 'nickName', 'shopName', 'accountNumber', 'accountType', 'shippingLocation']
-    const roleOrderValues = ['roles', 'orders']
+    const roleValues = ['roles']
     const user = req.body;
 
     values.forEach(key => {
@@ -18,7 +18,7 @@ const validateUser = async (req: express.Request, res: express.Response, next: N
     })
 
     if (user.type !== 'admin') {
-        roleOrderValues.forEach(key => {
+        roleValues.forEach(key => {
             if (!user[key]) {
                 errorList.push(`${key} is require`)
             }

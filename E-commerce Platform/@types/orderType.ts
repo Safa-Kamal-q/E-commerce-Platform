@@ -9,8 +9,11 @@ export namespace NSOrder {
         id: string;
         totalPrice: number;
         status: StatusType;
-        totalAmount: number
-        user: string[]
-        cartItems: string[]
+        paymentInfo: string
+        products: string[]
+        productQuantities: Array<{
+            productId: string;
+            quantity: number;
+        }>;
     }
 }

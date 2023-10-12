@@ -30,10 +30,6 @@ const insertUser = async (payload: NSUser.SingleUser) => {
                     id: In(payload.roles)
                 });
 
-                newUser.orders = await Order.findBy({
-                    id: In(payload.orders)
-                });
-
                 const cart = ShoppingCart.create({
                     totalPrice: 0,
                     cartItems: []

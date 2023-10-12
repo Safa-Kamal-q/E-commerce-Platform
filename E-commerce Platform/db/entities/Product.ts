@@ -13,8 +13,8 @@ export class Product extends BaseEntity {
     @Column()
     description: string
 
-    @Column({ nullable: false })
-    price: string //How to make this if the user want to see the price in shekel and it is in dollar 
+    @Column('decimal', { precision: 5, scale: 2, nullable: false })
+    price: number //How to make this if the user want to see the price in shekel and it is in dollar 
 
     @Column({ nullable: false, default: 1 })
     quantity: number
@@ -38,5 +38,5 @@ export class Product extends BaseEntity {
             onUpdate: 'CASCADE'
         }
     )
-    sellerProfile: string | SellerProfile //is this type correct? //userId in database
+    sellerProfile: string | SellerProfile  //userId in database
 }
