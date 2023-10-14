@@ -9,6 +9,8 @@ import { ShoppingCartItem } from "./entities/ShoppingCartItems.js";
 import { PaymentInfo } from "./entities/PaymentInfo.js";
 import dotenv from 'dotenv';
 import { SellerProfile } from "./entities/SellerProfile.js";
+import { createConnection } from 'typeorm';
+
 
 dotenv.config(); // Load environment variables from .env file
 
