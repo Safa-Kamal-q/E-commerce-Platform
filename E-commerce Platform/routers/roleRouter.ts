@@ -2,38 +2,15 @@ import express from 'express'
 import { getRoles, getRolesByID, insertRole } from '../controllers/roleController.js';
 import { authenticate } from '../middlewares/auth/authenticate.js';
 import { authorize } from '../middlewares/auth/authorize.js';
-import { Role } from '../db/entities/Role.js';
+import { validateRole } from '../middlewares/validation/role.js';
 
 const router = express.Router();
 
-router.post('/', authenticate, authorize('POST_roles/'), async (req, res) => {
-    const role = req.body
+router.post('/',validateRole, authenticate, authorize('POST_roles/'), async (req, res) => {
 
-    ///move this to vialed role middleware 
-    if (!role.name) {
-        res.status(400).send('The name of role required')
-    }
-    if (await Role.findOneBy({ name: role.name })) {
-        res.status(400).send('This name already exist in the DB')
-        return
-    }
-    if (!['seller', 'admin', 'guest', 'buyer'].includes(role.name)) {
-        res.status(400).send('The name for role must be one of the following "seller, admin, guest, buyer" only ')
-        return
-    }
-
-    if (!role.permissions) {
-        res.status(400).send('Add permission for the role')
-    }
-
-    ///
-
-    insertRole(role).then((data) => {
+    insertRole(req.body).then((data) => {
         res.status(201).send('Role added successfully');
     }).catch(err => {
-        if (err === 'This name already exist in the DB') {
-            res.status(400).send(err)
-        }
         res.status(500).send(err)
     });
 })
@@ -49,7 +26,11 @@ router.get('/', authenticate, authorize('GET_roles/'), (req, res) => {
 router.get('/:id', authenticate, authorize('GET_roles/:id'), (req, res) => {
     const id = req.params.id
     getRolesByID(id).then(data => {
-        res.status(201).send(data)
+        if(data.length === 0 ){
+            res.status(404).send(`The role with this Id: ${id} not found`)
+        }else{
+            res.status(201).send(data)
+        }
     }).catch(err => {
         res.status(500).send(err)
     })

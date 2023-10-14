@@ -4,7 +4,8 @@ import { PaymentInfo } from "../../db/entities/PaymentInfo.js";
 
 const validateOrder = async (req: express.Request, res: express.Response, next: NextFunction) => {
     const errorList: String[] = [];
-    const values = ["paymentInfo", "products", "productQuantities"];
+    const values = ["paymentInfo", "productQuantities"];
+    const validProducts: Product[] = [];
 
     const order = req.body;
 
@@ -42,17 +43,21 @@ const validateOrder = async (req: express.Request, res: express.Response, next: 
 
             if (!product) {
                 errorList.push(`Product with ID ${productId} not found`)
+            }else{
+                validProducts.push(product);
             }
 
             if (product && quantity > product.quantity) {
                 errorList.push(`Not enough quantity available for product: ${product.title} which has this id: ${product.id}`)
             }
+
         }
     }
 
     if (errorList.length > 0) {
         res.status(400).send(errorList)
     } else {
+        res.locals.validProducts = validProducts
         next();
     }
 }

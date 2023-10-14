@@ -29,7 +29,11 @@ router.get('/', authenticate, authorize('GET_products/'), (req, res) => {
 router.get('/:id', authenticate, authorize('GET_products/:id'), (req, res) => {
     const id = req.params.id
     getProductByID(id).then(data => {
-        res.status(201).send(data)
+        if(data.length === 0 ){
+            res.status(404).send(`The product with this Id: ${id} not found`)
+        }else{
+            res.status(201).send(data)
+        }
     }).catch(err => {
         res.status(500).send(err)
     })
@@ -40,7 +44,7 @@ router.get(
     '/seller-products/:id',
     authenticate, authorize('GET_products/seller-products/:id'),
     async (req, res) => {
-        const id = req.params.Id
+        const id = req.params.id
 
         const existingSellerProfile = await SellerProfile.findOne({
             where: { id },

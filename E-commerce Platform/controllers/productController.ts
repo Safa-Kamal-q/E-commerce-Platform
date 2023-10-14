@@ -27,11 +27,11 @@ const getProductByID = async (id: string) => {
 }
 
 //This to get all the products that belong to specific user
-const getSellerProducts = async (sellerId: string) => {
+const getSellerProducts = async (sellerProfileId: string) => {
     try {
         const products = await Product
             .createQueryBuilder('product')
-            .where('product.sellerProfileId = :sellerId', { sellerId: sellerId })
+            .where('product.sellerProfileId = :sellerProfileId', { sellerProfileId: sellerProfileId })
             .getMany();
 
         return products

@@ -1,5 +1,4 @@
-import { Column, BaseEntity, ManyToOne, PrimaryGeneratedColumn, Entity, ManyToMany, JoinTable } from "typeorm";
-import { User } from "./User.js";
+import { Column, BaseEntity, ManyToOne, PrimaryGeneratedColumn, Entity, ManyToMany, JoinTable, CreateDateColumn } from "typeorm";
 import { Product } from "./Product.js";
 import { PaymentInfo } from "./PaymentInfo.js";
 
@@ -22,6 +21,12 @@ export class Order extends BaseEntity {
     @Column('simple-json')
     productQuantities: { productId: string; quantity: number }[];
 
+    @CreateDateColumn({
+        type: 'timestamp',
+        default: () => "CURRENT_TIMESTAMP()"
+    })
+    createdAt: Date;
+
     @ManyToOne(
         () => PaymentInfo,
         paymentInfo => paymentInfo.orders,
@@ -35,6 +40,6 @@ export class Order extends BaseEntity {
 
     @ManyToMany(() => Product, { eager: true })
     @JoinTable()
-    products: Product[];
+    products: string [] | Product[];
 
 }

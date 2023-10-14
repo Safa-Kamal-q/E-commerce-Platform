@@ -26,7 +26,11 @@ router.get('/', authenticate, authorize('GET_cart-items/'), (req, res) => {
 router.get('/:id', authenticate, authorize('GET_cart-items/:id'), (req, res) => {
     const id = req.params.id
     getCartItemByID(id).then(data => {
-        res.status(201).send(data)
+        if(data.length === 0 ){
+            res.status(404).send(`The cart-items with this Id: ${id} not found`)
+        }else{
+            res.status(201).send(data)
+        }
     }).catch(err => {
         res.status(500).send(err)
     })

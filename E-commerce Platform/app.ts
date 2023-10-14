@@ -1,11 +1,11 @@
 import './config.js';
 import express from 'express';
 ///////////////////
-import AWS, { S3 } from 'aws-sdk';
-import * as mysql from 'mysql2';
+// import AWS, { S3 } from 'aws-sdk';
+// import * as mysql from 'mysql2';
 
-// Your code here
-import dotenv from 'dotenv';
+// // Your code here
+// import dotenv from 'dotenv';
 /////////////////////////
 import "reflect-metadata"
 import { initDB } from './db/dataSource.js';
@@ -18,8 +18,9 @@ import orderRouter from './routers/orderRouter.js'
 import cors from 'cors'; // Import the cors middleware
 import Stripe from 'stripe';
 
-
-dotenv.config();
+//////////
+// dotenv.config();
+//////////////
 
 // // Initialize the Stripe instance with your secret key
 // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -61,19 +62,10 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+
 app.use(express.static('public'));
-app.set('view engine','ejs');
+app.set('view engine', 'ejs');
 app.use(cors());
-
-
- 
-
-
-
-
-//////////
-dotenv.config();
-//////////////
 
 
 // AWS.config.update({
@@ -82,36 +74,40 @@ dotenv.config();
 //   region: process.env.AWS_REGION,
 // });
 
-const s3 = new AWS.S3();
-const pool = mysql.createPool({
-  connectionLimit: 10, // You can adjust this limit as needed
-  host: process.env.DB_HOST || '',
-  port: Number(process.env.DB_PORT) || 3306,
-  user: process.env.DB_USER || '',
-  password: process.env.DB_PASSWORD || '',
-  database: 'your_database', // Replace with your database name
-});
+
+////////////////////////////
+
+// const s3 = new AWS.S3();
+// const pool = mysql.createPool({
+//   connectionLimit: 10, // You can adjust this limit as needed
+//   host: process.env.DB_HOST || '',
+//   port: Number(process.env.DB_PORT) || 3306,
+//   user: process.env.DB_USER || '',
+//   password: process.env.DB_PASSWORD || '',
+//   database: 'your_database', // Replace with your database name
+// });
 
 // To perform a database operation, acquire a connection from the pool
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error('Error getting connection from the pool:', err);
-    return;
-  }
+// pool.getConnection((err, connection) => {
+//   if (err) {
+//     console.error('Error getting connection from the pool:', err);
+//     return;
+//   }
 
-  // Use the acquired connection to execute queries
-  connection.query('SELECT * FROM your_table', (queryErr, results) => {
-    if (queryErr) {
-      console.error('Error executing query:', queryErr);
-    } else {
-      console.log('Query results:', results);
-      // Process the query results here
-    }
+//   // Use the acquired connection to execute queries
+//   connection.query('SELECT * FROM your_table', (queryErr, results) => {
+//     if (queryErr) {
+//       console.error('Error executing query:', queryErr);
+//     } else {
+//       console.log('Query results:', results);
+//       // Process the query results here
+//     }
 
-    // Release the connection back to the pool when done
-    connection.release();
-  });
-});
+//     // Release the connection back to the pool when done
+//     connection.release();
+//   });
+// });
+///////////////////
 
 app.get('/', (req, res) => {
   res.send('Server UP!');

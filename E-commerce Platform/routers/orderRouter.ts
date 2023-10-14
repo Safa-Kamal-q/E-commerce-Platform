@@ -7,7 +7,9 @@ import { authorize } from '../middlewares/auth/authorize.js'
 const router = express.Router()
 
 router.post('/', validateOrder, async (req, res) => {
-    createOrder(req.body).then(() => {
+    const validProducts = res.locals.validProducts
+
+    createOrder(req.body, validProducts).then(() => {
         res.status(201).send("Order added successfully")
     }).catch(err => {
         res.status(500).send(err)
@@ -25,24 +27,18 @@ router.get('/', authenticate, authorize('GET_orders/'), (req, res) => {
 router.get('/:id', authenticate, authorize('GET_orders/:id'), (req, res) => {
     const id = req.params.id
     getOrderByID(id).then(data => {
-        res.status(201).send(data)
+        if (data.length === 0) {
+            res.status(404).send(`The order with this Id: ${id} not found`)
+        } else {
+            res.status(201).send(data)
+        }
     }).catch(err => {
         res.status(500).send(err)
     })
 })
 
 router.delete('/:id', authenticate, authorize('DELETE_orders/:id'), async (req, res) => {
-    const id = req.params.id
-
-    deleteOrder(id).then(data => {
-        res.status(201).send(data)
-    }).catch(err => {
-        if (err.includes("The order not found")) {
-            res.status(400).send(err)
-        } else {
-            res.status(500).send("Something went wrong")
-        }
-    })
+    deleteOrder(req.params.id, res);
 });
 
 export default router 
