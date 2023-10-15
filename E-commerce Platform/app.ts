@@ -8,7 +8,7 @@ import express from 'express';
 // import dotenv from 'dotenv';
 /////////////////////////
 import "reflect-metadata"
-import { initDB } from './db/dataSource.js';
+import dataSource from './db/dataSource.js'
 import usersRouter from './routers/authRouter.js'
 import roleRouter from './routers/roleRouter.js'
 import permissionRouter from './routers/permissionRouter.js'
@@ -37,7 +37,11 @@ app.use(cors());
 //   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 //   region: process.env.AWS_REGION,
 // });
-
+dataSource.initialize().then(() => {
+  console.log("Connected to DB!");
+}).catch(err => {
+  console.error('Failed to connect to DB: ' + err);
+});
 
 ////////////////////////////
 
@@ -90,6 +94,5 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`App is running and Listening on port ${PORT}`);
-  initDB();
 });
 

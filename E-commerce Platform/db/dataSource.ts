@@ -17,9 +17,10 @@ const dataSource = new DataSource({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   // username: process.env.DB_USER,
-  username: 'root',
+  username: 'admin',
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  url: process.env.DB_URL,
   entities: [
     User,
     Role,
@@ -35,26 +36,23 @@ const dataSource = new DataSource({
   logging: false, // Set to true to log SQL queries (for debugging)
 });
 
-////////////////////////////////////
-// export const initDB = async () => {
-//   try {
-//     await dataSource.initialize();
-//     console.log("Connected to DB!");
-//   } catch (err) {
-//     console.error('Failed to connect to DB:', err);
-//   }
-// };
-/////////////////////////////////////
+export const initDB = async () =>
+    await dataSource.initialize().then(() => {
+        console.log('Connected to DB!');
+    }).catch(err => {
+        console.log('Failed to connect to DB: ', err);
+    });
+
 
 
 //////////////////////////////////////
-// this to test locally 
-export const initDB = async () =>
-  await dataSource.initialize().then(() => {
-    console.log("Connected to DB!");
-  }).catch(err => {
-    console.error('Failed to connect to DB: ' + err);
-  });
+// // this to test locally 
+// export const initDB = async () =>
+//   await dataSource.initialize().then(() => {
+//     console.log("Connected to DB!");
+//   }).catch(err => {
+//     console.error('Failed to connect to DB: ' + err);
+//   });
 //////////////////////////////
 
 export default dataSource
