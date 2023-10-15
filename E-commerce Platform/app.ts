@@ -22,42 +22,6 @@ import Stripe from 'stripe';
 // dotenv.config();
 //////////////
 
-// // Initialize the Stripe instance with your secret key
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-//   apiVersion: '2023-08-16',
-//   // Set the API version to match your Stripe account's version
-// });
-
-// const createCustomerAndInvoice = async () => {
-//   try {
-//     // Create a customer
-//     const customer = await stripe.customers.create({
-//       email: 'customer@example.com',
-//     });
-
-//     // Create an invoice item for the customer
-//     const invoiceItem = await stripe.invoiceItems.create({
-//       customer: customer.id,
-//       amount: 2500, // Amount in cents (e.g., $25.00)
-//       currency: 'usd',
-//       description: 'One-time setup fee',
-//     });
-
-//     // Create an invoice for the customer
-//     const invoice = await stripe.invoices.create({
-//       collection_method: 'send_invoice',
-//       customer: invoiceItem.customer as string, // Type assertion for TypeScript
-//     });
-
-//     console.log('New invoice created on a new customer:', invoice);
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// };
-
-// // Run the function to create the customer and invoice
-// createCustomerAndInvoice();
-
 const app = express();
 const PORT = 3000;
 
