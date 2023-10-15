@@ -9,6 +9,7 @@ import { ShoppingCartItem } from "./entities/ShoppingCartItems.js";
 import { PaymentInfo } from "./entities/PaymentInfo.js";
 import dotenv from 'dotenv';
 import { SellerProfile } from "./entities/SellerProfile.js";
+import { OrderCartItem } from "./entities/OrderCartItem.js";
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -27,6 +28,7 @@ const dataSource = new DataSource({
     Permission,
     OrderOneProduct,
     ShoppingCart,
+    OrderCartItem,
     ShoppingCartItem,
     PaymentInfo,
     SellerProfile

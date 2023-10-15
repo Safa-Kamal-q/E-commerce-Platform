@@ -36,7 +36,7 @@ export class OrderOneProduct extends BaseEntity {
             onUpdate: 'CASCADE'
         }
     )
-    paymentInfo: string | PaymentInfo //userId in database
+    paymentInfo: string | PaymentInfo 
 
     @ManyToOne(() => Product,
         {

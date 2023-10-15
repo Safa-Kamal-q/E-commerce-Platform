@@ -26,6 +26,9 @@ export class ShoppingCartItem extends BaseEntity {
     @JoinColumn()
     product: string | Product;
 
-    @Column()
+    @Column({ nullable: false })
     quantity: number;
+
+    @Column()
+    price: number
 }
