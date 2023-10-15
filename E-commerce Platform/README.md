@@ -32,21 +32,21 @@ The main objective of this project is to create a robust backend system for an E
 
 ## Installation and Usage
 
-## Installation
+> ## Installation
 
-> 1. Clone the repository to your local machine:
+1. Clone the repository to your local machine:
 
    ```bash
    git clone https://github.com/Safa-Kamal-q/E-commerce-Platform.git
    
    ```
-> 2. Install the project dependencies:
+2. Install the project dependencies:
    ```
     npm install
 
    ```
 
-## RUN
+> ## RUN
 
 1. Start the development server:
 
@@ -55,6 +55,8 @@ The main objective of this project is to create a robust backend system for an E
 
    ```
 2. The server should now be running at http://localhost:3000.
+
+
 
 ## Libraries
     Here's a list of libraries and their versions:
