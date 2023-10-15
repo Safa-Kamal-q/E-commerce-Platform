@@ -10,7 +10,7 @@ export class OrderOneProduct extends BaseEntity {
     @Column({ nullable: false })
     quantity: number
 
-    @Column()//must I add sth since it is derived attribute 
+    @Column() 
     totalPrice: number
 
     @Column({

@@ -49,15 +49,15 @@ export class User extends BaseEntity {
     @JoinTable()
     roles: Role[];
 
-    @OneToOne(() => ShoppingCart)// add this here or in User entity 
+    @OneToOne(() => ShoppingCart) 
     @JoinColumn()
     cart: ShoppingCart
 
-    @OneToOne(() => PaymentInfo)// add this here or in User entity 
+    @OneToOne(() => PaymentInfo) 
     @JoinColumn()
     paymentInfo: PaymentInfo
 
-    @OneToOne(() => SellerProfile)// add this here or in User entity 
+    @OneToOne(() => SellerProfile)
     @JoinColumn()
     sellerProfile: SellerProfile
 }

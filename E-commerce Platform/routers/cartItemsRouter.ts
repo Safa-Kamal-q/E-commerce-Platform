@@ -7,8 +7,11 @@ import { ShoppingCart } from '../db/entities/ShoppingCart.js'
 
 const router = express.Router()
 
-router.post('/', validateCartItem, authenticate, authorize('POST_cart-items/'), (req, res) => {
-    insertCartItem(req.body).then(data => {
+router.post('/',authenticate, authorize('POST_cart-items/'), validateCartItem, (req, res) => {
+    const cart= res.locals.existingCart;
+    const product = res.locals.existingProduct
+    
+    insertCartItem(req.body, cart, product).then(data => {
         res.status(201).send('The cart item added successfully')
     }).catch(err => {
         res.status(500).send(err)
