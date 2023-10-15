@@ -14,7 +14,7 @@ import roleRouter from './routers/roleRouter.js'
 import permissionRouter from './routers/permissionRouter.js'
 import productRouter from './routers/productRouter.js'
 import cartItemsRouter from './routers/cartItemsRouter.js'
-import orderRouter from './routers/orderRouter.js'
+import orderOneProductRouter from './routers/orderOneProductRouter.js'
 import cors from 'cors'; // Import the cors middleware
 import Stripe from 'stripe';
 
@@ -82,7 +82,7 @@ app.use('/roles', roleRouter)
 app.use('/permissions', permissionRouter)
 app.use('/products', productRouter)
 app.use('/cart-items', cartItemsRouter)
-app.use('/orders', orderRouter)
+app.use('/order-one-product', orderOneProductRouter)
 
 app.use((req, res) => {
   res.status(404).send("You requested something I don't have :(");
