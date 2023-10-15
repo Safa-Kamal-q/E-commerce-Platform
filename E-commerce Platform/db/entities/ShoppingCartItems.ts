@@ -7,7 +7,13 @@ export class ShoppingCartItem extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @ManyToOne(() => ShoppingCart, cart => cart.cartItems)
+    @ManyToOne(() => ShoppingCart, cart => cart.cartItems,
+        {
+            cascade: true,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        }
+    )
     cart: string | ShoppingCart;
 
     @ManyToOne(() => Product,
@@ -18,7 +24,7 @@ export class ShoppingCartItem extends BaseEntity {
         }
     )
     @JoinColumn()
-    product:  string | Product;
+    product: string | Product;
 
     @Column()
     quantity: number;
