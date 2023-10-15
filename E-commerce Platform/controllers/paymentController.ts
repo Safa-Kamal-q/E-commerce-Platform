@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
+import { Order } from '../db/entities/Order.js';
 
 const stripeApiKey = process.env.STRIPE_API_KEY || 'your-default-key';
 
@@ -7,8 +8,7 @@ const stripeApiKey = process.env.STRIPE_API_KEY || 'your-default-key';
 const stripe = new Stripe(stripeApiKey, {
     apiVersion: '2023-08-16', // Specify the Stripe API version
   });
-// Import the Order model if not already imported
-/////when i import the order entities it give me an error so i remove it for another notification
+
 // Process a payment
 export const processPayment = async (req: Request, res: Response): Promise<void> => {
   try {

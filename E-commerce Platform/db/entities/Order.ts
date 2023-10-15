@@ -43,3 +43,4 @@ export class Order extends BaseEntity {
     products: string [] | Product[];
 
 }
+ 
