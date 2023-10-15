@@ -1,5 +1,6 @@
-import { CreateDateColumn, PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne } from "typeorm";
+import { CreateDateColumn, PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, OneToMany } from "typeorm";
 import { SellerProfile } from "./SellerProfile.js";
+import { OrderOneProduct } from "./OrderOneProduct.js";
 
 
 @Entity('products')
@@ -38,5 +39,8 @@ export class Product extends BaseEntity {
             onUpdate: 'CASCADE'
         }
     )
-    sellerProfile: string | SellerProfile  //userId in database
+    sellerProfile: string | SellerProfile  //sellerProfileId in database
+
+    @OneToMany(() => OrderOneProduct, order=> order.product)
+    orders: OrderOneProduct[];
 }

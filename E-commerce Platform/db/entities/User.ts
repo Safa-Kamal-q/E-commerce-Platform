@@ -1,7 +1,6 @@
 import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from 'bcrypt';
 import { Role } from "./Role.js";
-import { Order } from "./Order.js";
 import { ShoppingCart } from "./ShoppingCart.js";
 import { PaymentInfo } from "./PaymentInfo.js";
 import { SellerProfile } from "./SellerProfile.js";
@@ -50,15 +49,15 @@ export class User extends BaseEntity {
     @JoinTable()
     roles: Role[];
 
-    @OneToOne(() => ShoppingCart)// add this here or in User entity 
+    @OneToOne(() => ShoppingCart) 
     @JoinColumn()
     cart: ShoppingCart
 
-    @OneToOne(() => PaymentInfo)// add this here or in User entity 
+    @OneToOne(() => PaymentInfo) 
     @JoinColumn()
     paymentInfo: PaymentInfo
 
-    @OneToOne(() => SellerProfile)// add this here or in User entity 
+    @OneToOne(() => SellerProfile)
     @JoinColumn()
     sellerProfile: SellerProfile
 }

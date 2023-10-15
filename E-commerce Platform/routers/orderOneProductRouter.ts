@@ -1,15 +1,17 @@
 import express from 'express'
-import { validateOrder } from '../middlewares/validation/orders.js'
-import { createOrder, deleteOrder, getOrderByID, getOrders } from '../controllers/orderControllers.js'
+import { validateOrderOneProduct } from '../middlewares/validation/orderOneProduct.js'
+import { createOrder, deleteOrder, getOrderByID, getOrders } from '../controllers/orderOneProductControllers.js'
 import { authenticate } from '../middlewares/auth/authenticate.js'
 import { authorize } from '../middlewares/auth/authorize.js'
 
 const router = express.Router()
 
-router.post('/', validateOrder, async (req, res) => {
-    const validProducts = res.locals.validProducts
-
-    createOrder(req.body, validProducts).then(() => {
+//Note: we take the paymentInfo id from token for more security
+//make sure that authorize work correctly 
+router.post('/', authenticate, authorize('POST_order-one-product/'), validateOrderOneProduct, async (req, res) => {
+    const paymentInfo = res.locals.user?.paymentInfo
+    console.log(paymentInfo)
+    createOrder(req.body, paymentInfo).then(() => {
         res.status(201).send("Order added successfully")
     }).catch(err => {
         res.status(500).send(err)

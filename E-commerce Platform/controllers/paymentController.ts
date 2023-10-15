@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
-import { Order } from '../db/entities/Order.js';
+import { OrderOneProduct } from '../db/entities/OrderOneProduct.js';
 
 const stripeApiKey = process.env.STRIPE_API_KEY || 'your-default-key';
 

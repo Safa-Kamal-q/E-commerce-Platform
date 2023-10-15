@@ -3,7 +3,6 @@ import { NSUser } from "../@types/userType.js";
 import dataSource from "../db/dataSource.js";
 import { Role } from "../db/entities/Role.js";
 import { User } from "../db/entities/User.js";
-import { Order } from "../db/entities/Order.js";
 import { ShoppingCart } from "../db/entities/ShoppingCart.js";
 import { PaymentInfo } from "../db/entities/PaymentInfo.js";
 import jwt from 'jsonwebtoken';

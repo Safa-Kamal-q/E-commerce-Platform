@@ -1,25 +1,25 @@
-import { Column, BaseEntity, ManyToOne, PrimaryGeneratedColumn, Entity, ManyToMany, JoinTable, CreateDateColumn } from "typeorm";
+import { Column, BaseEntity, ManyToOne, PrimaryGeneratedColumn, Entity, ManyToMany, JoinTable, CreateDateColumn, OneToMany, JoinColumn } from "typeorm";
 import { Product } from "./Product.js";
 import { PaymentInfo } from "./PaymentInfo.js";
 
-@Entity('orders')
-export class Order extends BaseEntity {
+@Entity('order-one-product')
+export class OrderOneProduct extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column()//must I add sth since it is derived attribute 
+    @Column({ nullable: false })
+    quantity: number
+
+    @Column() 
     totalPrice: number
 
     @Column({
         type: 'enum',
         enum: ['Pending', 'Shipped', 'Delivered'],
-        default: 'Pending'
+        default: 'Shipped'
 
     })
     status: 'Pending' | 'Shipped' | 'Delivered'
-
-    @Column('simple-json')
-    productQuantities: { productId: string; quantity: number }[];
 
     @CreateDateColumn({
         type: 'timestamp',
@@ -38,9 +38,14 @@ export class Order extends BaseEntity {
     )
     paymentInfo: string | PaymentInfo //userId in database
 
-    @ManyToMany(() => Product, { eager: true })
-    @JoinTable()
-    products: string [] | Product[];
+    @ManyToOne(() => Product,
+        {
+            cascade: true,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        }
+    )
+    @JoinColumn()
+    product: string | Product;
 
 }
- 

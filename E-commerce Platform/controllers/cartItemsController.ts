@@ -1,21 +1,31 @@
+import { Product } from "../db/entities/Product.js";
 import { NSCart } from "../@types/cartType.js";
+import { ShoppingCart } from "../db/entities/ShoppingCart.js";
 import { ShoppingCartItem } from "../db/entities/ShoppingCartItems.js";
 import express from 'express'
+import dataSource from "../db/dataSource.js";
 
-const insertCartItem = async (payload: NSCart.cartItem) => {
-    try {
-        const newCartItem = ShoppingCartItem.create({
-            ...payload
-        });
+const insertCartItem = async (payload: NSCart.cartItem, cart: ShoppingCart, existProduct: Product) => {
+    return dataSource.manager.transaction(async transaction => {
+        try {
+            const newCartItem = ShoppingCartItem.create({
+                ...payload
+            });
 
-        await newCartItem.save()
-        return newCartItem;
+            if(existProduct && cart){
+                cart.totalPrice+=payload.quantity*existProduct.price;
+                await transaction.save(cart);
+            }
 
-    }
-    catch (error) {
-        console.log(error)
-        throw ('Something went wrong')
-    }
+            await transaction.save(newCartItem);
+            return newCartItem;
+
+        }
+        catch (error) {
+            console.log(error)
+            throw ('Something went wrong')
+        }
+    });
 }
 
 const getOneCartItems = async () => {

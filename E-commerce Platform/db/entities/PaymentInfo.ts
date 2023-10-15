@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Order } from "./Order.js";
+import { OrderOneProduct } from "./OrderOneProduct.js";
 
 @Entity('payment_info')
 export class PaymentInfo extends BaseEntity {
@@ -15,7 +15,7 @@ export class PaymentInfo extends BaseEntity {
     @Column({ nullable: false })
     fullAddress: string
 
-    @OneToMany(() => Order, order => order.paymentInfo)
-    orders: Order[]
+    @OneToMany(() => OrderOneProduct, order => order.paymentInfo)
+    orders: OrderOneProduct[]
     //we must add attribute for the way of payment 
 }

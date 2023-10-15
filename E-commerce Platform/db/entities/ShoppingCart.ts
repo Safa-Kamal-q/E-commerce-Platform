@@ -7,9 +7,9 @@ export class ShoppingCart extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column() //must I add sth since it is derived attribute? 
+    @Column()  
     totalPrice: number
 
-    @OneToMany(() => ShoppingCartItem, cartItem => cartItem.cart, { cascade: true })
+    @OneToMany(() => ShoppingCartItem, cartItem => cartItem.cart)
     cartItems: ShoppingCartItem[];
 }
