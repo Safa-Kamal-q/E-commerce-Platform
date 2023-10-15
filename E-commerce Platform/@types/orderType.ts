@@ -1,4 +1,4 @@
-export namespace NSOrder {
+export namespace NSOrderOneProduct {
     export enum StatusType {
         pending = 'Pending',
         shipped = 'Shipped',
@@ -7,13 +7,11 @@ export namespace NSOrder {
 
     export interface SingleOrder {
         id: string;
+        quantity: number
         totalPrice: number;
         status: StatusType;
         paymentInfo: string
-        products: string[]
-        productQuantities: Array<{
-            productId: string;
-            quantity: number;
-        }>;
+        product: string 
+        createdAt: Date;
     }
 }

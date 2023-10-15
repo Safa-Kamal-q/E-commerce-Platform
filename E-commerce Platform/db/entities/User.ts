@@ -1,7 +1,6 @@
 import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from 'bcrypt';
 import { Role } from "./Role.js";
-import { Order } from "./Order.js";
 import { ShoppingCart } from "./ShoppingCart.js";
 import { PaymentInfo } from "./PaymentInfo.js";
 import { SellerProfile } from "./SellerProfile.js";

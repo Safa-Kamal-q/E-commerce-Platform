@@ -7,7 +7,8 @@ export namespace NSProduct{
         quantity: number
         createdAt: Date;
         image: string 
-        sellerProfile: string 
+        sellerProfile: string,
+        // orders: string []
         
     }
 }

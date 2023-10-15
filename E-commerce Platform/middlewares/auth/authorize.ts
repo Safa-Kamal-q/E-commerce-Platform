@@ -8,12 +8,13 @@ const authorize = (api: string) => {
     res: express.Response,
     next: express.NextFunction
   ) => {
-    if (res.locals.user?.type === 'admin') {
+    if (res.locals.user?.type === 'admin' ) {
       next()
       return
     }
     const permissions: NSUser.Permission[] = res.locals.user?.roles?.flatMap((role: Role) => role.permissions) || [];
     if (permissions.filter(p => p.name === api).length > 0) {
+      res.locals.user= res.locals.user
       next();
     } else {
       res.status(403).send("You don't have the permission to access this resource!");
