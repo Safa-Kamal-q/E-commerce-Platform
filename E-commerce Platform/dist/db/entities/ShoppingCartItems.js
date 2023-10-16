@@ -34,9 +34,13 @@ __decorate([
     __metadata("design:type", Object)
 ], ShoppingCartItem.prototype, "product", void 0);
 __decorate([
-    Column(),
+    Column({ nullable: false }),
     __metadata("design:type", Number)
 ], ShoppingCartItem.prototype, "quantity", void 0);
+__decorate([
+    Column(),
+    __metadata("design:type", Number)
+], ShoppingCartItem.prototype, "price", void 0);
 ShoppingCartItem = __decorate([
     Entity()
 ], ShoppingCartItem);

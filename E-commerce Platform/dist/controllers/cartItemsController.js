@@ -3,8 +3,10 @@ import dataSource from "../db/dataSource.js";
 const insertCartItem = async (payload, cart, existProduct) => {
     return dataSource.manager.transaction(async (transaction) => {
         try {
+            const price = payload.quantity * existProduct.price;
             const newCartItem = ShoppingCartItem.create({
-                ...payload
+                ...payload,
+                price
             });
             if (existProduct && cart) {
                 cart.totalPrice += payload.quantity * existProduct.price;
