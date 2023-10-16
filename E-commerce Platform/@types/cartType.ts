@@ -10,5 +10,6 @@ export namespace NSCart{
         cart: string 
         product: string 
         quantity: number
+        price: number
     }
 }

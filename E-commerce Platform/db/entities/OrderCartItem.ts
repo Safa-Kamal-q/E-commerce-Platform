@@ -1,8 +1,9 @@
-
-import {BaseEntity,PrimaryGeneratedColumn, Entity,CreateDateColumn, Column } from "typeorm";
+import {BaseEntity,PrimaryGeneratedColumn, Entity,CreateDateColumn, Column, ManyToOne, ManyToMany, JoinTable } from "typeorm";
+import { PaymentInfo } from "./PaymentInfo.js";
+import { ShoppingCartItem } from "./ShoppingCartItems.js";
 
 @Entity('order-cart-items')
-export class OrderOneProduct extends BaseEntity {
+export class OrderCartItem extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
@@ -23,5 +24,20 @@ export class OrderOneProduct extends BaseEntity {
     })
     createdAt: Date;
 
+    @ManyToOne(
+        () => PaymentInfo,
+        paymentInfo => paymentInfo.orders,
+        {
+            cascade: true,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        }
+    )
+    paymentInfo: string | PaymentInfo //userId in database
+
+    @ManyToMany(() => ShoppingCartItem, { eager: true })
+    @JoinTable()
+    cartItems: ShoppingCartItem[];
 
 }
+
