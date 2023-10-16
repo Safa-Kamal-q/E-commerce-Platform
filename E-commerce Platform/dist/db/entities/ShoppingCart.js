@@ -16,12 +16,11 @@ __decorate([
     __metadata("design:type", String)
 ], ShoppingCart.prototype, "id", void 0);
 __decorate([
-    Column() //must I add sth since it is derived attribute? 
-    ,
+    Column(),
     __metadata("design:type", Number)
 ], ShoppingCart.prototype, "totalPrice", void 0);
 __decorate([
-    OneToMany(() => ShoppingCartItem, cartItem => cartItem.cart, { cascade: true }),
+    OneToMany(() => ShoppingCartItem, cartItem => cartItem.cart),
     __metadata("design:type", Array)
 ], ShoppingCart.prototype, "cartItems", void 0);
 ShoppingCart = __decorate([

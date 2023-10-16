@@ -6,6 +6,7 @@ const authorize = (api) => {
         }
         const permissions = res.locals.user?.roles?.flatMap((role) => role.permissions) || [];
         if (permissions.filter(p => p.name === api).length > 0) {
+            res.locals.user = res.locals.user;
             next();
         }
         else {

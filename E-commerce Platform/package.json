@@ -5,6 +5,7 @@
   "main": "./dist/app.js",
   "type": "module",
   "scripts": {
+    "start": "node dist/app.js",
     "build-tsc": "tsc -w",
     "run-watch": "nodemon ./dist/app.js",
     "dev": "concurrently \"npm run build-tsc\"  \"npm run run-watch\""

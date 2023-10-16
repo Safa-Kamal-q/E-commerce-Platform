@@ -3,7 +3,7 @@ import { User } from "./entities/User.js";
 import { Role } from "./entities/Role.js";
 import { Product } from "./entities/Product.js";
 import { Permission } from "./entities/Permission.js";
-import { Order } from "./entities/Order.js";
+import { OrderOneProduct } from "./entities/OrderOneProduct.js";
 import { ShoppingCart } from "./entities/ShoppingCart.js";
 import { ShoppingCartItem } from "./entities/ShoppingCartItems.js";
 import { PaymentInfo } from "./entities/PaymentInfo.js";
@@ -24,7 +24,7 @@ const dataSource = new DataSource({
         Role,
         Product,
         Permission,
-        Order,
+        OrderOneProduct,
         ShoppingCart,
         ShoppingCartItem,
         PaymentInfo,

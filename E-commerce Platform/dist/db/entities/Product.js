@@ -7,8 +7,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { CreateDateColumn, PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne } from "typeorm";
+import { CreateDateColumn, PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, OneToMany } from "typeorm";
 import { SellerProfile } from "./SellerProfile.js";
+import { OrderOneProduct } from "./OrderOneProduct.js";
 let Product = class Product extends BaseEntity {
 };
 __decorate([
@@ -52,6 +53,10 @@ __decorate([
     }),
     __metadata("design:type", Object)
 ], Product.prototype, "sellerProfile", void 0);
+__decorate([
+    OneToMany(() => OrderOneProduct, order => order.product),
+    __metadata("design:type", Array)
+], Product.prototype, "orders", void 0);
 Product = __decorate([
     Entity('products')
 ], Product);

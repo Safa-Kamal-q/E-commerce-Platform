@@ -17,7 +17,11 @@ __decorate([
     __metadata("design:type", String)
 ], ShoppingCartItem.prototype, "id", void 0);
 __decorate([
-    ManyToOne(() => ShoppingCart, cart => cart.cartItems),
+    ManyToOne(() => ShoppingCart, cart => cart.cartItems, {
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    }),
     __metadata("design:type", Object)
 ], ShoppingCartItem.prototype, "cart", void 0);
 __decorate([

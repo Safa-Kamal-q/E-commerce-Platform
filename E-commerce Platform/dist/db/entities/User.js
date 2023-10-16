@@ -71,20 +71,17 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "roles", void 0);
 __decorate([
-    OneToOne(() => ShoppingCart) // add this here or in User entity 
-    ,
+    OneToOne(() => ShoppingCart),
     JoinColumn(),
     __metadata("design:type", ShoppingCart)
 ], User.prototype, "cart", void 0);
 __decorate([
-    OneToOne(() => PaymentInfo) // add this here or in User entity 
-    ,
+    OneToOne(() => PaymentInfo),
     JoinColumn(),
     __metadata("design:type", PaymentInfo)
 ], User.prototype, "paymentInfo", void 0);
 __decorate([
-    OneToOne(() => SellerProfile) // add this here or in User entity 
-    ,
+    OneToOne(() => SellerProfile),
     JoinColumn(),
     __metadata("design:type", SellerProfile)
 ], User.prototype, "sellerProfile", void 0);

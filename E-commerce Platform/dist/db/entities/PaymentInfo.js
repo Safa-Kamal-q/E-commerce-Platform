@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Order } from "./Order.js";
+import { OrderOneProduct } from "./OrderOneProduct.js";
 let PaymentInfo = class PaymentInfo extends BaseEntity {
 };
 __decorate([
@@ -28,7 +28,7 @@ __decorate([
     __metadata("design:type", String)
 ], PaymentInfo.prototype, "fullAddress", void 0);
 __decorate([
-    OneToMany(() => Order, order => order.paymentInfo),
+    OneToMany(() => OrderOneProduct, order => order.paymentInfo),
     __metadata("design:type", Array)
 ], PaymentInfo.prototype, "orders", void 0);
 PaymentInfo = __decorate([

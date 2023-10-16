@@ -9,7 +9,7 @@ const authenticate = async (req, res, next) => {
     catch (error) { }
     if (tokenIsValid) {
         const decoded = jwt.decode(token, { json: true });
-        const user = await User.findOneBy({ email: decoded?.email || '' });
+        const user = await User.findOne({ where: { email: decoded?.email || '' }, relations: ['paymentInfo'] });
         res.locals.user = user;
         next();
     }

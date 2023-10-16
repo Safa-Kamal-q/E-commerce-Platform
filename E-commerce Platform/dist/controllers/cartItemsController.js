@@ -1,16 +1,23 @@
 import { ShoppingCartItem } from "../db/entities/ShoppingCartItems.js";
-const insertCartItem = async (payload) => {
-    try {
-        const newCartItem = ShoppingCartItem.create({
-            ...payload
-        });
-        await newCartItem.save();
-        return newCartItem;
-    }
-    catch (error) {
-        console.log(error);
-        throw ('Something went wrong');
-    }
+import dataSource from "../db/dataSource.js";
+const insertCartItem = async (payload, cart, existProduct) => {
+    return dataSource.manager.transaction(async (transaction) => {
+        try {
+            const newCartItem = ShoppingCartItem.create({
+                ...payload
+            });
+            if (existProduct && cart) {
+                cart.totalPrice += payload.quantity * existProduct.price;
+                await transaction.save(cart);
+            }
+            await transaction.save(newCartItem);
+            return newCartItem;
+        }
+        catch (error) {
+            console.log(error);
+            throw ('Something went wrong');
+        }
+    });
 };
 const getOneCartItems = async () => {
     return await ShoppingCartItem.find();
