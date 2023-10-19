@@ -1,6 +1,9 @@
 name: Push-to-EC2
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -12,10 +15,11 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Deploy to my EC2 instance
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+        uses: softprops/action-ssh-deploy@v5
+
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: "ec2_user" 
+          REMOTE_USER: "ubuntu"
           TARGET: "home"
