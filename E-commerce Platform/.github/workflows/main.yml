@@ -17,5 +17,5 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: "ec2-user"
+          REMOTE_USER: "ec2_user" 
           TARGET: "home"
