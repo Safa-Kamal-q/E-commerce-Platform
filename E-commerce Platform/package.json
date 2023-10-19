@@ -13,6 +13,8 @@
   "author": "SafaAnsam",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.14",
     "@types/dotenv": "^8.2.0",
