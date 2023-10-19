@@ -1,27 +1,21 @@
-name: Node.js CICD
+name: Push-to-EC2
 
-# Trigger deployment only on push to the main branch
-on:
-  push:
-    branches: [main]
+on: push
 
 jobs:
-  build:
+  deploy:
+    name: Push to EC2 Instance
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout the code
+        uses: actions/checkout@v1
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: "ec2-user"
+          TARGET: "home"
