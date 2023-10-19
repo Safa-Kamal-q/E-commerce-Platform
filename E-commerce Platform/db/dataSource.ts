@@ -1,3 +1,4 @@
+import { createConnection, Connection } from 'typeorm';
 import { DataSource } from "typeorm";
 import { User } from "./entities/User.js";
 import { Role } from "./entities/Role.js";
@@ -13,37 +14,41 @@ import { OrderCartItem } from "./entities/OrderCartItem.js";
 
 dotenv.config(); // Load environment variables from .env file
 
-const dataSource = new DataSource({
-  type: 'mysql',
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  // username: process.env.DB_USER,
-  username: 'admin',
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  url: process.env.DB_URL,
-  entities: [
-    User,
-    Role,
-    Product,
-    Permission,
-    OrderOneProduct,
-    ShoppingCart,
-    OrderCartItem,
-    ShoppingCartItem,
-    PaymentInfo,
-    SellerProfile
-  ],
-  synchronize: true, // Set to true for development; consider migrations for production
-  logging: false, // Set to true to log SQL queries (for debugging)
+
+export let connection: Connection; // Declare a connection variable
+
+export async function initDB(): Promise<void> {
+  try {
+    connection = await createConnection({
+      type: 'mysql',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: [
+        User,
+       Role,
+       Product,
+       Permission,
+       OrderOneProduct,
+       ShoppingCart,
+       OrderCartItem,
+       ShoppingCartItem,
+       PaymentInfo,
+       SellerProfile
+       ],
+      synchronize: true, // Set to true for development; consider migrations for production
+      logging: false, // Set to true to log SQL queries (for debugging)
 });
 
-export const initDB = async () =>
-    await dataSource.initialize().then(() => {
-        console.log('Connected to DB!');
-    }).catch(err => {
-        console.log('Failed to connect to DB: ', err);
-    });
+
+console.log('Connected to the database');
+} catch (error) {
+  console.error('Failed to connect to the database:', error);
+  throw error;
+}
+}
 
 
 
@@ -56,5 +61,4 @@ export const initDB = async () =>
 //     console.error('Failed to connect to DB: ' + err);
 //   });
 //////////////////////////////
-
-export default dataSource
+export default DataSource
