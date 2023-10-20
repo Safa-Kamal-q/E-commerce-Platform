@@ -45,11 +45,11 @@ app.use(cors());
 
 
 ///////////////////////////////
-// initDB().then(() => {
-//   console.log("Connected to DB!");
-// }).catch((err: any) => {
-//   console.error('Failed to connect to DB: ' + err);
-// });
+initDB().then(() => {
+  console.log("Connected to DB!");
+}).catch((err: any) => {
+  console.error('Failed to connect to DB: ' + err);
+});
 ////////////////////////
 
 
@@ -70,10 +70,9 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  // console.log(`App is running and Listening on port ${PORT}`);
   baseLogger.info(`App is running and Listening on port ${PORT}`);
   ///////////////
-  initDB();
+  // initDB();
   ///////////////
 });
 
