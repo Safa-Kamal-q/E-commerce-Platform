@@ -7,33 +7,34 @@ on:
 
 jobs:
   build:
-
     runs-on: self-hosted
-
-    strategy: 
+    defaults:
+       run:
+         working-directory: ./E-commerece-Platform
+    strategy:
       matrix:
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out the code
+        uses: actions/checkout@v2
+
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version}}
+          node-version: 14
           cache: 'npm'
-      
-      - name: Change to the subdirectory
-        run: cd /E-commerce-Platform/E-commerce-Platform/E-commerce Platform
-        
+          cache-dependency-path: './E-commerce-Platform/E-commerce\ Platform/package-lock.json'
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build the application
         run: npm run build --if-present
+ 
+      - name: Start the application using pm2
+        run: pm2 start dist/app.ts
 
-      - name: Start the application
-        run: pm2 start dist/app.js
-      
 
 
 
