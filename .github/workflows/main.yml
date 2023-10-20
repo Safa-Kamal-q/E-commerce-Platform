@@ -23,7 +23,7 @@ jobs:
           cache: 'npm'
       
       - name: Change to the subdirectory
-        run: cd E-commerce-platform
+        run: cd E-commerce-Platform/E-commerce-Platfoem
 
       - name: Install dependencies
         run: npm ci
