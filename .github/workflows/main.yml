@@ -3,7 +3,10 @@ name: CICD
 on:
   push:
     branches: [main] 
-    
+
+env:
+  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}    
 
 
 jobs:
@@ -15,8 +18,8 @@ jobs:
       - name: Login to Docker hub
         uses: docker/login-action@v2
         with: 
-          username: ${{ env.DOCKER_USERNAME}}
-          password: ${{ env.DOCKER_PASSWORD}}
+          username: $USERNAME
+          password: $PASSWORD
       - name: Build docker image
         run: docker build -t integrationninjas/nodejs-app .
       - name: Publish image to docker hub
