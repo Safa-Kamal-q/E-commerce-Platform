@@ -19,7 +19,7 @@ jobs:
 
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SOURCE: "./"
+          SOURCE: "./E-commerce Platform"
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: "ubuntu"
           TARGET: "home"
