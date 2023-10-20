@@ -22,4 +22,4 @@ jobs:
           SOURCE: "./E-commerce Platform"
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: "ubuntu"
-          TARGET: "home"
+          TARGET: "/home/ubuntu/E-commerce-platform""
