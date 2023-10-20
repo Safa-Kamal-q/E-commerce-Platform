@@ -1,13 +1,10 @@
-FROM node:latest
+FROM node:16.20.1
 
 #working dir
-WORKDIR /usr/src/app
+WORKDIR /app
 
 #copy package json files
 COPY package*.json ./
-
-#install prettier 
-RUN npm install prettier -g
 
 #install files
 RUN npm install
