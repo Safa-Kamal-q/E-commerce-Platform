@@ -8,6 +8,8 @@ import express from 'express';
 // import dotenv from 'dotenv';
 /////////////////////////
 import "reflect-metadata"
+import baseLogger from './logger.js';
+
 import {initDB} from './db/dataSource.js'
 import usersRouter from './routers/authRouter.js'
 import roleRouter from './routers/roleRouter.js'
@@ -19,7 +21,7 @@ import orderCartItems from './routers/orderCartItemRouter.js'
 
 import cors from 'cors'; // Import the cors middleware
 import Stripe from 'stripe';
-import { validateProduct } from './middlewares/validation/product.js';
+
 
 //////////
 // dotenv.config();
@@ -43,11 +45,11 @@ app.use(cors());
 
 
 ///////////////////////////////
-initDB().then(() => {
-  console.log("Connected to DB!");
-}).catch((err: any) => {
-  console.error('Failed to connect to DB: ' + err);
-});
+// initDB().then(() => {
+//   console.log("Connected to DB!");
+// }).catch((err: any) => {
+//   console.error('Failed to connect to DB: ' + err);
+// });
 ////////////////////////
 
 
@@ -68,9 +70,10 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`App is running and Listening on port ${PORT}`);
+  // console.log(`App is running and Listening on port ${PORT}`);
+  baseLogger.info(`App is running and Listening on port ${PORT}`);
   ///////////////
-  // initDB();
+  initDB();
   ///////////////
 });
 
