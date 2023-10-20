@@ -16,14 +16,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: use Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version}}
           cache: 'npm'
       - run: npm ci
+        working-directory: E-commerce-Platform
       - run: npm run build --if-present
+        working-directory: E-commerce-platform  # Set the working directory to your subdirectory
       - run: pm2 start dist/app.js
+        working-directory: E-commerce-platform  # Set the working directory to your subdirectory
       
 
 
