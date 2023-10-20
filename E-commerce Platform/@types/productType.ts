@@ -1,14 +1,13 @@
-export namespace NSProduct{
-    export interface Item{
+export namespace NSProduct {
+    export interface Item {
         id: string
-        title: string 
+        title: string
         description: string
-        price:  number
+        price: number
         quantity: number
         createdAt: Date;
-        image: string 
+        basicImage: string
         sellerProfile: string,
-        // orders: string []
-        
+        galleryImages: string[]
     }
 }
