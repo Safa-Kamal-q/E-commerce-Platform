@@ -1,4 +1,4 @@
-name: Push-to-EC2
+name: CICD
 
 on:
   push:
@@ -7,21 +7,14 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version:  ['14.x', '16.x', '18.x']
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js 
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14.x'
-      
-    - name: Set working directory
-      run: cd E-commerce-Platform/E-commerce\ Platform
+    - name: Checkout source
+      uses: actions/checkout@v3
+    - name: Login to Docker Hub
+      run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{ secrets.DOCKER_PASSWORD}}
+    - name: Build docker image
+      run: docker build -t integrationninjas
+
 
 
     - name: Install dependencies
