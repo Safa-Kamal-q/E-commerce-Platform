@@ -23,40 +23,9 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
+      - run: pm2 start dist/app.js
+      
 
 
 
 
-
-
-
-  # deploy:
-  #   name: Push to EC2 Instance
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout the code
-  #       uses: actions/checkout@v1
-
-  #     - name: Deploy to my EC2 instance
-  #       uses: easingthemes/ssh-deploy@main
-
-  #       with:
-  #         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  #         SOURCE: "./E-commerce Platform"
-  #         REMOTE_HOST: ${{ secrets.HOST_DNS }}
-  #         REMOTE_USER: "ubuntu"
-  #         TARGET: "/home/ubuntu/E-commerce-platform"
-          
-  #     - name: Executing remote ssh commands using ssh key 
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.HOST_DNS }}
-  #         username: "ubuntu"
-  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
-  #         script: |
-  #           sudo apt-get -y update
-  #           sudo apt-get install -y apache2
-  #           sudo systemctl start apache2
-  #           sudo systemctl enable apache2
-  #           cd home sudo mv * /var/www/html
