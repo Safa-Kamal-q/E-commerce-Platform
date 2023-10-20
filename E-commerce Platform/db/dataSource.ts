@@ -13,8 +13,6 @@ import { OrderCartItem } from "./entities/OrderCartItem.js";
 
 dotenv.config(); // Load environment variables from .env file
 
-
-
 const dataSource = new DataSource({
   type: 'mysql',
   host: process.env.MYSQL_ADDON_HOST,
@@ -36,7 +34,7 @@ const dataSource = new DataSource({
        ],
       synchronize: true, // Set to true for development; consider migrations for production
       logging: false, // Set to true to log SQL queries (for debugging)
-});
+    });
 
 export const initDB = async () =>
     await dataSource.initialize().then(() => {
@@ -47,8 +45,34 @@ export const initDB = async () =>
 
 
 
+
 //////////////////////////////////////
 // // this to test locally 
+// const dataSource = new DataSource({
+//   type: 'mysql',
+//   host: process.env.DB_HOST,
+//   port: Number(process.env.DB_PORT),
+//   // username: process.env.DB_USER,
+//   username: 'root',
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_NAME,
+//   entities: [
+//     User,
+//     Role,
+//     Product,
+//     Permission,
+//     OrderOneProduct,
+//     ShoppingCart,
+//     OrderCartItem,
+//     ShoppingCartItem,
+//     PaymentInfo,
+//     SellerProfile
+//   ],
+//   synchronize: true, // Set to true for development; consider migrations for production
+//   logging: false, // Set to true to log SQL queries (for debugging)
+// });
+
+
 // export const initDB = async () =>
 //   await dataSource.initialize().then(() => {
 //     console.log("Connected to DB!");

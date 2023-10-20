@@ -3,7 +3,7 @@ import { SellerProfile } from '../../db/entities/SellerProfile.js';
 
 const validateProduct = async (req: express.Request, res: express.Response, next: NextFunction) => {
     const errorList: String[] = [];
-    const values = ["title", "description", "price", "quantity", "image", "sellerProfile"];
+    const values = ["title", "description", "price", "quantity", "sellerProfile"];
     const product = req.body;
 
     values.forEach(key => {

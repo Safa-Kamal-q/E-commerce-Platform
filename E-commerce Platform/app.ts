@@ -19,6 +19,7 @@ import orderCartItems from './routers/orderCartItemRouter.js'
 
 import cors from 'cors'; // Import the cors middleware
 import Stripe from 'stripe';
+import { validateProduct } from './middlewares/validation/product.js';
 
 //////////
 // dotenv.config();
@@ -40,45 +41,15 @@ app.use(cors());
 //   region: process.env.AWS_REGION,
 // });
 
+
+///////////////////////////////
 initDB().then(() => {
   console.log("Connected to DB!");
 }).catch((err: any) => {
   console.error('Failed to connect to DB: ' + err);
 });
+////////////////////////
 
-////////////////////////////
-
-// const s3 = new AWS.S3();
-// const pool = mysql.createPool({
-//   connectionLimit: 10, // You can adjust this limit as needed
-//   host: process.env.DB_HOST || '',
-//   port: Number(process.env.DB_PORT) || 3306,
-//   user: process.env.DB_USER || '',
-//   password: process.env.DB_PASSWORD || '',
-//   database: 'your_database', // Replace with your database name
-// });
-
-// To perform a database operation, acquire a connection from the pool
-// pool.getConnection((err, connection) => {
-//   if (err) {
-//     console.error('Error getting connection from the pool:', err);
-//     return;
-//   }
-
-//   // Use the acquired connection to execute queries
-//   connection.query('SELECT * FROM your_table', (queryErr, results) => {
-//     if (queryErr) {
-//       console.error('Error executing query:', queryErr);
-//     } else {
-//       console.log('Query results:', results);
-//       // Process the query results here
-//     }
-
-//     // Release the connection back to the pool when done
-//     connection.release();
-//   });
-// });
-///////////////////
 
 app.get('/', (req, res) => {
   res.send('Server UP!');
@@ -98,5 +69,8 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`App is running and Listening on port ${PORT}`);
+  ///////////////
+  // initDB();
+  ///////////////
 });
 

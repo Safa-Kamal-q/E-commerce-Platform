@@ -21,8 +21,10 @@ export class Product extends BaseEntity {
     quantity: number
 
     @Column({ nullable: false })
-    // image: JSON//check if the type true (array of urls not supported from sql)
-    image: string// need to fix it 
+    basicImage: string
+
+    @Column('simple-array')
+    galleryImages: string[];
 
     @CreateDateColumn({
         type: 'timestamp',
@@ -41,6 +43,6 @@ export class Product extends BaseEntity {
     )
     sellerProfile: string | SellerProfile  //sellerProfileId in database
 
-    @OneToMany(() => OrderOneProduct, order=> order.product)
+    @OneToMany(() => OrderOneProduct, order => order.product)
     orders: OrderOneProduct[];
 }

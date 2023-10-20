@@ -1,11 +1,15 @@
 import { NSProduct } from "../@types/productType.js";
 import { Product } from "../db/entities/Product.js";
 import express from 'express'
+import { uploadFile } from "../s3.js";
 
-const insertProduct = async (payload: NSProduct.Item) => {
+const insertProduct = async (payload: NSProduct.Item, imageFile: Express.Multer.File) => {
     try {
+        const result = await uploadFile(imageFile)
+
         const newProduct = Product.create({
-            ...payload
+            ...payload,
+            basicImage: result.Location//we will store the basic image URL 
         });
 
         await newProduct.save()
@@ -74,11 +78,39 @@ const updateProduct = async (id: string, payload: NSProduct.Item, res: express.R
     }
 }
 
+const addImageGallery = async (id: string, files: Express.Multer.File[] , res: express.Response) => {
+    try {
+
+        const existingProduct = await Product.findOneBy({ id })
+
+        let imagesUrl: string [] = [];
+        if (existingProduct) {
+
+            for (const file of files) {
+                const result = await uploadFile(file)
+                imagesUrl.push(result.Location)
+            }
+
+            existingProduct.galleryImages= imagesUrl
+            await Product.save(existingProduct);
+
+            res.status(201).send("Gallery images added successfully ")
+
+        } else {
+            res.status(404).send("Product not found")
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).send("Something went wrong")
+    }
+}
+
 export {
     insertProduct,
     getProducts,
     getProductByID,
     getSellerProducts,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    addImageGallery
 }
