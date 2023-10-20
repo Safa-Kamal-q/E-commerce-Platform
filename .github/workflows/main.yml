@@ -21,12 +21,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version}}
           cache: 'npm'
-      - run: npm ci
-        working-directory: E-commerce-Platform
-      - run: npm run build --if-present
-        working-directory: E-commerce-platform  # Set the working directory to your subdirectory
-      - run: pm2 start dist/app.js
-        working-directory: E-commerce-platform  # Set the working directory to your subdirectory
+      
+      - name: Change to the subdirectory
+        run: cd E-commerce-platform
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the application
+        run: npm run build --if-present
+
+      - name: Start the application
+        run: pm2 start dist/app.js
       
 
 
