@@ -2,26 +2,29 @@ name: CICD
 
 on:
   push:
-    branches:
+    branches: 
       - main
 
 jobs:
   build:
+    runs-on: [ubuntu-latest]
     steps:
-    - name: Checkout source
-      uses: actions/checkout@v3
-    - name: Login to Docker Hub
-      run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{ secrets.DOCKER_PASSWORD}}
-    - name: Build docker image
-      run: docker build -t integrationninjas
-
-
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build the application
-      run: npm run build --if-present
-
-    - name: Start the application using pm2
-      run: pm2 start dist/app.ts
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} 
+      - name: Build docker image
+        run: docker build -t integrationninjas/nodejs-app .
+      - name: Publish image to docker hub
+        run: docker push integrationninjas/nodejs-app:latest
+        
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull integrationninjas/nodejs-app:latest
+      - name: Delete old container
+        run: docker rm -f nodejs-app-container
+      - name: Run docker container
+        run: docker run -d -p 3000:3000 --name nodejs-app-container integrationninjas/nodejs-app
