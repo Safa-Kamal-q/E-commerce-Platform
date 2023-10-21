@@ -19,13 +19,13 @@ jobs:
       - name: Build docker image
         run: docker build -t integrationninjas/nodejs-app .
 
-      - name: Push Docker Image
-        run: |
-          docker push integrationninjas/nodejs-app:latest
-          docker push integrationninjas/nodejs-app:${{ env.packageVersion }}
-        env:
-          packageVersion: ${{ env.packageVersion }}
+      - name: Tag Docker image
+        run: docker tag integrationninjas/nodejs-app ${{secrets.DOCKER_USERNAME}}/integrationninjas/nodejs-app:latest
+
       
+      - name: Publish image to docker hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/integrationninjas/nodejs-app:latest
+
   deploy:
     needs: build
     runs-on: aws-ec2
