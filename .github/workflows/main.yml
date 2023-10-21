@@ -17,20 +17,19 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build docker image
-        run: docker build -t integrationninjas/nodejs-app .
-
+        run: docker build -t Safa-Kamal-q/E-commerce-Platform .
       - name: Publish image to docker hub
-        run: docker push integrationninjas/nodejs-app:16
+        run: docker push Safa-Kamal-q/E-commerce-Platform:latest
 
   deploy:
     needs: build
     runs-on: aws-ec2
     steps:
       - name: Pull image from docker hub
-        run: docker pull integrationninjas/nodejs-app:latest
+        run: docker pull Safa-Kamal-q/E-commerce-Platform:latest
 
       - name: Delete old container
-        run: docker rm -f nodejs-app-container
+        run: docker rm -f E-commerce-Platform-container
 
       - name: Run docker container
-        run: docker run -d -p 3000:3000 --name nodejs-app-container integrationninjas/nodejs-app
+        run: docker run -d -p 3000:3000 --name E-commerce-Platform-container Safa-Kamal-q/E-commerce-Platform
