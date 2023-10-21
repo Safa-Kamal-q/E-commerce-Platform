@@ -16,16 +16,10 @@ jobs:
       - name: Docker Login
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        # Hub with the name clockbox.
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{secrets.DOCKER_USERNAME}}/nodejs:latest
+      - name: Build docker image
+        run: docker build -t safa-kamal-q/e-commerce-platform .
+      - name: Publish image to docker hub
+        run: docker push safa-kamal-q/e-commerce-platform:latest
 
   deploy:
     needs: build
