@@ -19,8 +19,11 @@ import cartItemsRouter from './routers/cartItemsRouter.js'
 import orderOneProductRouter from './routers/orderOneProductRouter.js'
 import orderCartItems from './routers/orderCartItemRouter.js'
 
+import { error404Handler, errorLogger, errorSender } from './middlewares/errorHandlers/genericHandler.js';
+
 import cors from 'cors'; // Import the cors middleware
 import Stripe from 'stripe';
+
 
 
 //////////
@@ -45,11 +48,11 @@ app.use(cors());
 
 
 ///////////////////////////////
-initDB().then(() => {
-  console.log("Connected to DB!");
-}).catch((err: any) => {
-  console.error('Failed to connect to DB: ' + err);
-});
+// initDB().then(() => {
+//   console.log("Connected to DB!");
+// }).catch((err: any) => {
+//   console.error('Failed to connect to DB: ' + err);
+// });
 ////////////////////////
 
 
@@ -65,14 +68,14 @@ app.use('/cart-items', cartItemsRouter)
 app.use('/order-one-product', orderOneProductRouter)
 app.use('/order-cart-items', orderCartItems)
 
-app.use((req, res) => {
-  res.status(404).send("You requested something I don't have :(");
-});
+app.use(errorLogger);
+app.use(errorSender);
+app.use(error404Handler);
 
 app.listen(PORT, () => {
   baseLogger.info(`App is running and Listening on port ${PORT}`);
   ///////////////
-  // initDB();
+  initDB();
   ///////////////
 });
 

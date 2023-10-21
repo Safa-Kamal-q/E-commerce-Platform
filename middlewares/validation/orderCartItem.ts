@@ -34,28 +34,32 @@ const validateOrderCartItem = async (req: express.Request, res: express.Response
 
         if (missingItems.length > 0) {
             errorList.push(`The following cart items do not exist: ${missingItems.join(', ')}`);
-        } 
-            const cartItemIds = orderCartItem.cartItems;
+        }
+        const cartItemIds = orderCartItem.cartItems;
 
-            // Fetch all ShoppingCartItem entities for the given cartItemIds
-            const cartItemsFromDB = await ShoppingCartItem.find({
-                where: { id: In(cartItemIds) },relations: ['cart'] 
-            });
+        // Fetch all ShoppingCartItem entities for the given cartItemIds
+        const cartItemsFromDB = await ShoppingCartItem.find({
+            where: { id: In(cartItemIds) }, relations: ['cart']
+        });
 
-            // Check if all cartItemsIds have the same cartId
-            const firstCartId = (cartItemsFromDB[0].cart as ShoppingCart).id;
+        // Check if all cartItemsIds have the same cartId
+        const firstCartId = (cartItemsFromDB[0].cart as ShoppingCart).id;
 
-            for (const cartItemId of cartItemIds) {
-                const cartItem = cartItemsFromDB.find(item => item.id === cartItemId);
-                if (!cartItem || (cartItem.cart as ShoppingCart).id !== firstCartId) {
-                    errorList.push(`The cart item with id ${cartItemId} has a different cartId`);
-                }
-            
+        for (const cartItemId of cartItemIds) {
+            const cartItem = cartItemsFromDB.find(item => item.id === cartItemId);
+            if (!cartItem || (cartItem.cart as ShoppingCart).id !== firstCartId) {
+                errorList.push(`The cart item with id ${cartItemId} has a different cartId`);
+            }
+
         }
     }
 
     if (errorList.length > 0) {
-        res.status(400).send(errorList)
+        next({
+            code: 'validation',
+            status: 400,
+            message: errorList
+        })
     } else {
         res.locals.user = res.locals.user
         next();
