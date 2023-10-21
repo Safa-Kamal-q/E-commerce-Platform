@@ -1,7 +1,7 @@
-FROM node:16.20.1
+FROM node:latest
 
 #working dir
-WORKDIR /app
+WORKDIR /usr/src/app
 
 #copy package json files
 COPY package*.json ./
