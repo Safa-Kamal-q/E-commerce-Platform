@@ -19,12 +19,8 @@ jobs:
       - name: Build docker image
         run: docker build -t integrationninjas/nodejs-app .
 
-      - name: Tag Docker image
-        run: docker tag integrationninjas/nodejs-app ${{secrets.DOCKER_USERNAME}}/integrationninjas/nodejs-app:latest
-
-      
       - name: Publish image to docker hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/integrationninjas/nodejs-app:latest
+        run: docker push integrationninjas/nodejs-app:16
 
   deploy:
     needs: build
