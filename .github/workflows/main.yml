@@ -17,19 +17,19 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build docker image
-        run: docker build -t Safa-Kamal-q/E-commerce-Platform .
+        run: docker build -t safa-kamal-q/e-commerce-platform .
       - name: Publish image to docker hub
-        run: docker push Safa-Kamal-q/E-commerce-Platform:latest
+        run: docker push safa-kamal-q/e-commerce-platform:latest
 
   deploy:
     needs: build
     runs-on: aws-ec2
     steps:
       - name: Pull image from docker hub
-        run: docker pull Safa-Kamal-q/E-commerce-Platform:latest
+        run: docker pull safa-kamal-q/e-commerce-platform:latest
 
       - name: Delete old container
-        run: docker rm -f E-commerce-Platform-container
+        run: docker rm -f e-commerce-platform-container
 
       - name: Run docker container
-        run: docker run -d -p 3000:3000 --name E-commerce-Platform-container Safa-Kamal-q/E-commerce-Platform
+        run: docker run -d -p 3000:3000 --name e-commerce-platform-container Safa-Kamal-q/E-commerce-Platform
