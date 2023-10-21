@@ -1,35 +1,24 @@
-name: CICD
+name: Push-to-EC2
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v2
-      
-      - name: Docker Login
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build docker image
-        run: docker build -t safa-kamal-q/e-commerce-platform .
-      - name: Publish image to docker hub
-        run: docker push safa-kamal-q/e-commerce-platform:latest
-
   deploy:
-    needs: build
-    runs-on: aws-ec2
+    name: Push to EC2 Instance
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Pull image from docker hub
-        run: docker pull safa-kamal-q/e-commerce-platform:latest
+      - name: Checkout the code
+        uses: actions/checkout@v1
 
-      - name: Delete old container
-        run: docker rm -f e-commerce-platform-container
-
-      - name: Run docker container
-        run: docker run -d -p 3000:3000 --name e-commerce-platform-container Safa-Kamal-q/E-commerce-Platform
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: "home"
