@@ -36,8 +36,8 @@ const validateCartItem = async (req: express.Request, res: express.Response, nex
 
     const existingCartItem = await ShoppingCartItem.findOne({
         where: {
-            cart: { id: cartItem.cart },  
-            product: { id: cartItem.product },  
+            cart: { id: cartItem.cart },
+            product: { id: cartItem.product },
         },
     });
 
@@ -48,10 +48,14 @@ const validateCartItem = async (req: express.Request, res: express.Response, nex
     }
 
     if (errorList.length > 0) {
-        res.status(400).send(errorList)
+        next({
+            code: 'validation',
+            status: 400,
+            message: errorList
+        })
     } else {
-        res.locals.existingCart= existingCart
-        res.locals.existingProduct= existingProduct
+        res.locals.existingCart = existingCart
+        res.locals.existingProduct = existingProduct
         next();
     }
 }

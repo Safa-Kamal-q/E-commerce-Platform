@@ -16,7 +16,7 @@ const validateOrderOneProduct = async (req: express.Request, res: express.Respon
 
     const existProduct = await Product.findOne({ where: { id: order.product } })
 
-    if(!existProduct){
+    if (!existProduct) {
         errorList.push("The product not found")
     }
 
@@ -25,14 +25,18 @@ const validateOrderOneProduct = async (req: express.Request, res: express.Respon
     //     errorList.push("You are not buyer so cannot create this order")
     // }
 
-    if(existProduct && order.quantity>existProduct.quantity){
+    if (existProduct && order.quantity > existProduct.quantity) {
         errorList.push(`Not enough quantity available for product: ${existProduct.title} which has this id: ${existProduct.id}`)
     }
 
     if (errorList.length > 0) {
-        res.status(400).send(errorList)
+        next({
+            code: 'validation',
+            status: 400,
+            message: errorList
+        })
     } else {
-        res.locals.user= res.locals.user
+        res.locals.user = res.locals.user
         console.log(res.locals.user)
         next();
     }

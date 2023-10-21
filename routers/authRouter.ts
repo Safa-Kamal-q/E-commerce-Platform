@@ -4,15 +4,18 @@ import { validateUser } from '../middlewares/validation/user.js';
 
 const router = express.Router();
 
-router.post("/register", validateUser, (req, res) => {
+router.post("/register", validateUser, (req, res, next) => {
     insertUser(req.body).then(() => {
         res.status(201).send('user added successfully');
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     });
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -31,7 +34,11 @@ router.post("/login", (req, res) => {
             res.send(data);
         })
         .catch(err => {
-            res.status(500).send(err)
+            next({
+                code: 'authenticate',
+                status: 401,
+                message: err
+            })
         })
 });
 

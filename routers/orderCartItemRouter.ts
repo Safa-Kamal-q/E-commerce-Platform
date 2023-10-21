@@ -6,38 +6,51 @@ import { validateOrderCartItem } from '../middlewares/validation/orderCartItem.j
 
 const router = express.Router()
 
-router.post('/', authenticate, authorize('POST_order-cart-items/'), validateOrderCartItem, async (req, res) => {
+router.post('/', authenticate, authorize('POST_order-cart-items/'), validateOrderCartItem, async (req, res, next) => {
     const paymentInfo = res.locals.user?.paymentInfo
 
     createOrderFromCart(req.body, paymentInfo).then(() => {
         res.status(201).send("Order created successfully")
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     })
 })
 
-router.get('/', authenticate, authorize('GET_order-cart-items/'), (req, res) => {
+router.get('/', authenticate, authorize('GET_order-cart-items/'), (req, res, next) => {
     getOrders().then(data => {
         res.status(201).send(data)
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     })
 })
 
-router.get('/:id', authenticate, authorize('GET_order-cart-items/:id'), (req, res) => {
+router.get('/:id', authenticate, authorize('GET_order-cart-items/:id'), (req, res, next) => {
     const id = req.params.id
     getOrderByID(id).then(data => {
         if (data.length === 0) {
-            res.status(404).send(`The order with this Id: ${id} not found`)
+            next({
+                code: 'not found',
+                status: 404,
+                message: `The order with this Id: ${id} not found`
+            })
         } else {
             res.status(201).send(data)
         }
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     })
 })
 
-router.delete('/:id', authenticate, authorize('DELETE_order-cart-items/:id'), async (req, res) => {
+router.delete('/:id', authenticate, authorize('DELETE_order-cart-items/:id'), async (req, res, next) => {
     deleteOrder(req.params.id, res);
 });
 
