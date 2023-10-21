@@ -1,12 +1,12 @@
 <h1 align="center">XpressCart 🛒</h1>
 
-## ✨️ Contents
-- **[Introduction](https://github.com/Safa-Kamal-q/test/new/main?readme=1#%EF%B8%8F-introduction)**
-- **[Features](https://github.com/Safa-Kamal-q/test/new/main?readme=1#%EF%B8%8F-features)**
-- **[Tech Stack](https://github.com/Safa-Kamal-q/test/new/main?readme=1#%EF%B8%8F-tech-stack)**
-- **[Installation and Usage](https://github.com/Safa-Kamal-q/test/new/main?readme=1#%EF%B8%8F-installation-and-usage)**
-- **[Libraries](https://github.com/Safa-Kamal-q/test/new/main?readme=1#%EF%B8%8F-libraries)**
-- **[Contributing](https://github.com/Safa-Kamal-q/test/new/main?readme=1#%EF%B8%8F-contributing)**
+## ✨️ Table of contents
+- **[Introduction](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-introduction)**
+- **[Features](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-features)**
+- **[Tech Stack](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-tech-stack)**
+- **[Installation and Usage](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-installation-and-usage)**
+- **[Libraries](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-libraries)**
+- **[Contributing](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-contributing)**
 
 ## ✨️ Introduction
 ***XpressCart*** this is our project name and it is a back-end ***E-commerce Platform*** project
