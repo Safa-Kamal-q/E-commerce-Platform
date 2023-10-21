@@ -1,4 +1,4 @@
-name: Push-to-EC2
+name: Push to EC2
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Push to EC2 Instance
+    name: Push to EC2 Ubuntu
     runs-on: ubuntu-latest
 
     steps:
