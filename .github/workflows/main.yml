@@ -27,6 +27,8 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ghcr.io/safa-kamal-q/e-commerce-platform:9d3bc24
+
+    - name: Publish docker image
       uses: appleboy/ssh-action@master
       with:
         host: ec2-3-71-188-147.eu-central-1.compute.amazonaws.com
