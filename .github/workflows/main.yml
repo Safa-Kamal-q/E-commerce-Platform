@@ -30,7 +30,7 @@ jobs:
     - name: Publish docker image
       run: docker push ghcr.io/Safa-Kamal-q/E-commerce-Platform:${{ steps.image_version.outputs.gitsha }}
     - name: configure docker host
-      uses: Safa-Kamal-q/E-commerce-Platform
+      uses: Safa-Kamal-q/test
       with:
         host: ec2-3-71-188-147.eu-central-1.compute.amazonaws.com
         user: ubuntu
