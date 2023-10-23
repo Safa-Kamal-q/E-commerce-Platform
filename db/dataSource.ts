@@ -16,11 +16,11 @@ dotenv.config(); // Load environment variables from .env file
 
 const dataSource = new DataSource({
     type: 'mysql',
-    host: process.env.MYSQL_ADDON_HOST,
-    port: Number(process.env.MYSQL_ADDON_PORT),
-    username: process.env.MYSQL_ADDON_USER,
-    password: process.env.MYSQL_ADDON_PASSWORD,
-    database: process.env.MYSQL_ADDON_DB,
+    host: process.env.MYSQL_HOST,
+    port: Number(process.env.MYSQL_PORT),
+    username: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DB,
     entities: [
         User,
         Role,
