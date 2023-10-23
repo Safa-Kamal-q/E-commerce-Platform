@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  app_service:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+     - mysql://admin:${DB_PASSWORD}@db:3306/xpresscart
+
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: xpresscart
+    ports:
+      - "3307:3306"
