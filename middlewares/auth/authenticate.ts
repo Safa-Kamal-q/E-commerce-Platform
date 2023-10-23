@@ -19,7 +19,11 @@ const authenticate = async (
     res.locals.user = user;
     next();
   } else {
-    res.status(401).send("You are Unauthorized!");
+    next({
+      code: 'authenticate',
+      status: 401,
+      message: "You are Unauthorized!"
+    })
   }
 }
 

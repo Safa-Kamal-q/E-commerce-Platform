@@ -7,35 +7,48 @@ import { ShoppingCart } from '../db/entities/ShoppingCart.js'
 
 const router = express.Router()
 
-router.post('/',authenticate, authorize('POST_cart-items/'), validateCartItem, (req, res) => {
-    const cart= res.locals.existingCart;
+router.post('/', authenticate, authorize('POST_cart-items/'), validateCartItem, (req, res, next) => {
+    const cart = res.locals.existingCart;
     const product = res.locals.existingProduct
-    
+
     insertCartItem(req.body, cart, product).then(data => {
         res.status(201).send('The cart item added successfully')
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     })
 })
 
-router.get('/', authenticate, authorize('GET_cart-items/'), (req, res) => {
+router.get('/', authenticate, authorize('GET_cart-items/'), (req, res, next) => {
     getOneCartItems().then(data => {
         res.status(201).send(data)
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     })
 })
 
-router.get('/:id', authenticate, authorize('GET_cart-items/:id'), (req, res) => {
+router.get('/:id', authenticate, authorize('GET_cart-items/:id'), (req, res, next) => {
     const id = req.params.id
     getCartItemByID(id).then(data => {
-        if(data.length === 0 ){
-            res.status(404).send(`The cart-items with this Id: ${id} not found`)
-        }else{
+        if (data.length === 0) {
+            next({
+                code: 'not found',
+                status: 404,
+                message: `The cart-items with this Id: ${id} not found`
+            })
+        } else {
             res.status(201).send(data)
         }
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     })
 })
 
@@ -43,7 +56,7 @@ router.get('/:id', authenticate, authorize('GET_cart-items/:id'), (req, res) => 
 router.get(
     '/cart/:id',
     authenticate, authorize('GET_cart-items/cart/:id'),
-    async (req, res) => {
+    async (req, res, next) => {
         const id = req.params.id
 
         const existingCart = await ShoppingCart.findOne({
@@ -51,13 +64,20 @@ router.get(
         });
 
         if (!existingCart) {
-            return res.status(404).send("The cart doesn't exist or the cart has no items yet")
+            next({
+                code: 'not found',
+                status: 404,
+                message: `The cart doesn't exist or the cart has no items yet`
+            })
 
         } else {
             getAllCartItems(id).then(data => {
                 res.status(201).send(data)
             }).catch(err => {
-                res.status(500).send(err)
+                next({
+                    status: 500,
+                    message: "Something went wrong"
+                })
             })
         }
     })

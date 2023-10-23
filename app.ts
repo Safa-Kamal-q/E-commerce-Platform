@@ -10,10 +10,23 @@ import productRouter from './routers/productRouter.js'
 import cartItemsRouter from './routers/cartItemsRouter.js'
 import orderOneProductRouter from './routers/orderOneProductRouter.js'
 import orderCartItems from './routers/orderCartItemRouter.js'
+<<<<<<< HEAD
+=======
+
+import { error404Handler, errorLogger, errorSender } from './middlewares/errorHandlers/genericHandler.js';
+
+import cors from 'cors'; // Import the cors middleware
+>>>>>>> 5bc857e5ba14385de934fdbc5f498db748075b57
 import Stripe from 'stripe';
 
 
 
+<<<<<<< HEAD
+=======
+//////////
+// dotenv.config();
+//////////////
+>>>>>>> 5bc857e5ba14385de934fdbc5f498db748075b57
 
 const app = express();
 const PORT = 3000;
@@ -28,11 +41,21 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
+<<<<<<< HEAD
 initDB().then(() => {
   console.log("Connected to DB!");
 }).catch((err: any) => {
   console.error('Failed to connect to DB: ' + err);
 });
+=======
+///////////////////////////////
+// initDB().then(() => {
+//   console.log("Connected to DB!");
+// }).catch((err: any) => {
+//   console.error('Failed to connect to DB: ' + err);
+// });
+////////////////////////
+>>>>>>> 5bc857e5ba14385de934fdbc5f498db748075b57
 
 
 app.get('/', (req, res) => {
@@ -48,12 +71,19 @@ app.use('/cart-items', cartItemsRouter)
 app.use('/order-one-product', orderOneProductRouter)
 app.use('/order-cart-items', orderCartItems)
 
-app.use((req, res) => {
-  res.status(404).send("You requested something I don't have :(");
-});
+app.use(errorLogger);
+app.use(errorSender);
+app.use(error404Handler);
 
 app.listen(PORT, () => {
+<<<<<<< HEAD
   console.log(`Server is running on port ${PORT}`);
+=======
+  baseLogger.info(`App is running and Listening on port ${PORT}`);
+  ///////////////
+  initDB();
+  ///////////////
+>>>>>>> 5bc857e5ba14385de934fdbc5f498db748075b57
 });
 
 

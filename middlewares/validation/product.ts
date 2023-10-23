@@ -21,7 +21,11 @@ const validateProduct = async (req: express.Request, res: express.Response, next
     }
 
     if (errorList.length > 0) {
-        res.status(400).send(errorList)
+        next({
+            code: 'validation',
+            status: 400,
+            message: errorList
+        })
     } else {
         next();
     }

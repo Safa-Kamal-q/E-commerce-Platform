@@ -8,34 +8,50 @@ const router = express.Router()
 
 //Note: we take the paymentInfo id from token for more security
 //make sure that authorize work correctly 
-router.post('/', authenticate, authorize('POST_order-one-product/'), validateOrderOneProduct, async (req, res) => {
-    const paymentInfo = res.locals.user?.paymentInfo
-    console.log(paymentInfo)
-    createOrder(req.body, paymentInfo).then(() => {
-        res.status(201).send("Order added successfully")
-    }).catch(err => {
-        res.status(500).send(err)
+router.post('/', authenticate,
+    authorize('POST_order-one-product/'),
+    validateOrderOneProduct,
+    async (req, res, next) => {
+        const paymentInfo = res.locals.user?.paymentInfo
+        console.log(paymentInfo)
+        createOrder(req.body, paymentInfo).then(() => {
+            res.status(201).send("Order added successfully")
+        }).catch(err => {
+            next({
+                status: 500,
+                message: "Something went wrong"
+            })
+        })
     })
-})
 
-router.get('/', authenticate, authorize('GET_orders/'), (req, res) => {
+router.get('/', authenticate, authorize('GET_orders/'), (req, res, next) => {
     getOrders().then(data => {
         res.status(201).send(data)
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     })
 })
 
-router.get('/:id', authenticate, authorize('GET_orders/:id'), (req, res) => {
+router.get('/:id', authenticate, authorize('GET_orders/:id'), (req, res, next) => {
     const id = req.params.id
     getOrderByID(id).then(data => {
         if (data.length === 0) {
-            res.status(404).send(`The order with this Id: ${id} not found`)
+            next({
+                code: 'not found',
+                status: 404,
+                message: `The order with this Id: ${id} not found`
+            })
         } else {
             res.status(201).send(data)
         }
     }).catch(err => {
-        res.status(500).send(err)
+        next({
+            status: 500,
+            message: "Something went wrong"
+        })
     })
 })
 

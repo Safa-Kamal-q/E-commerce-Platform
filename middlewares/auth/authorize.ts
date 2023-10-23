@@ -17,7 +17,11 @@ const authorize = (api: string) => {
       res.locals.user= res.locals.user
       next();
     } else {
-      res.status(403).send("You don't have the permission to access this resource!");
+      next({
+        code: 'authorize',
+        status: 403,
+        message: "You don't have the permission to access this resource!"
+      })
     }
   }
 }
