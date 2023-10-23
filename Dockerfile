@@ -1,17 +1,25 @@
-FROM node:latest
+# The base image that will have node dep
+FROM node:20-alpine
 
-#working dir
-WORKDIR /usr/src/app
+# Set the current working directory in the container
+WORKDIR /usr/app
 
-#copy package json files
-COPY package*.json ./
+RUN apk add curl
 
-#install files
-RUN npm install
+# Copy only two files to the image
+COPY package.json package-lock.json ./
 
-#copy source files
-COPY . . 
+# Execute a command while building the container
+RUN npm ci
+
+# Now copy the project files
+ADD . . 
+# Build the app
+RUN npm run build
+
+HEALTHCHECK --interval=10s --timeout=3s \
+  CMD curl -f http://localhost/ || exit 1
 
 
-CMD ["npm","run","dev"]
-
+# When running the container, execute the following command
+CMD node ./dist/app.js

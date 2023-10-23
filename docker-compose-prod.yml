@@ -10,25 +10,24 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - "3306:3306"
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       timeout: 20s
       retries: 10
+    restart: always
 
   app:
-    profiles:
-      - in_docker
-    container_name: xpresscart
-    build: .
+    image: ghcr.io/Safa-Kamal-q/E-commerce-Platform:$GIT_VERSION
+    restart: always
     environment:
       - PORT=80
-      - DB_HOST=db
-      - DB_USER=root
+      - DB_HOST=database-xc.cvyhgnz0qrhi.eu-central-1.rds.amazonaws.com
+      - DB_USER=admin
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=xpresscart
     ports:
-      - "3000:80"
+      - "80:80"
     depends_on:
       mysql:
         condition: service_healthy
