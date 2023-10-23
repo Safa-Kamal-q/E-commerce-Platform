@@ -28,9 +28,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ghcr.io/Safa-Kamal-q/E-commerce-Platform:${{ steps.image_version.outputs.gitsha }}
     - name: Publish docker image
-      run: docker push ghcr.io/Safa-Kamal-q/E-commerce-Platform:${{ steps.image_version.outputs.gitsha }}
-    - name: configure docker host
-      uses: Safa-Kamal-q/configure-docker-host@v1
+      uses: appleboy/ssh-action@master
       with:
         host: ec2-3-71-188-147.eu-central-1.compute.amazonaws.com
         user: ubuntu
