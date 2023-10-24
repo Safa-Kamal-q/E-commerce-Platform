@@ -29,12 +29,11 @@ jobs:
       run: docker build . --file Dockerfile --tag ghcr.io/safa-kamal-q/e-commerce-platform:9d3bc24
 
     - name: Publish docker image
-      uses: appleboy/ssh-action@master
-      with:
-        host: 3.71.188.147
-        user: ubuntu
-        ssh-private-key: ${{ secrets.SSH_KEY }}  # Use your secret for the private key
-        port: 22 
+      run: |
+        ssh -i "xpresscart.pem" -o StrictHostKeyChecking=no ubuntu@ec2-3-71-188-147.eu-central-1.compute.amazonaws.com "docker load -i ~/your_image.tar.gz"
+      env:
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      GIT_VERSION: ${{ steps.image_version.outputs.gitsha }}
         
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
