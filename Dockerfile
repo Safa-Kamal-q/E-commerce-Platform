@@ -7,15 +7,11 @@ WORKDIR /usr/app
 COPY package.json package-lock.json ./
 
 # Execute a command while building the container
-RUN npm ci
+RUN npm install
 
 # Now copy the project files
 ADD . . 
 # Build the app
-RUN npm run build-tsc
-
-HEALTHCHECK --interval=10s --timeout=3s \
-  CMD curl -f http://localhost/ || exit 1
 
 
 # When running the container, execute the following command
