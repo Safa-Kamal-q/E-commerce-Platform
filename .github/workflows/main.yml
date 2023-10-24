@@ -34,7 +34,7 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_KEY }}
         source: "./"
         host: 172.31.22.58
-        user: ${{ secrets.USERNAME }}
+        user: ubuntu
         target: "home"
         
     - name: deploy
