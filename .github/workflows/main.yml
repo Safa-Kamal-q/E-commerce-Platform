@@ -40,7 +40,7 @@ jobs:
         
     - name: deploy
       run: |
-        cd path/to/your/subdirectory
+        cd home
         docker compose -f docker-compose-prod.yml up -d
       env: 
         DB_PASSWORD: ${{secrets.DB_PASSWORD}}
