@@ -35,7 +35,7 @@ jobs:
       uses: khaledez/configure-docker-host@v1
       with:
         host: 3.71.188.147
-        user: github
+        user: ubuntu
         ssh-private-key: ${{ secrets.SSH_KEY }}  # Use your secret for the private key
         
     - name: deploy
