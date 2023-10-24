@@ -21,7 +21,7 @@ services:
     restart: always
     environment:
       - PORT=80
-      - DB_HOST=database-xc.cvyhgnz0qrhi.eu-central-1.rds.amazonaws.com
+      - DB_HOST=db
       - DB_USER=admin
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=xpresscart
