@@ -19,7 +19,7 @@ services:
   app:
     profiles:
       - in_docker
-    container_name: xpresscart
+    container_name: express-docker
     build: .
     environment:
       - PORT=80
