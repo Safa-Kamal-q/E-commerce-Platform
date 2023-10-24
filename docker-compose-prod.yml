@@ -4,34 +4,30 @@ services:
   mysql:
     container_name: db
     image: mysql
-    environment: 
-      - MYSQL_ADMIN_PASSWORD=$DB_PASSWORD
-      - MYSQL_DATABASE=xpresscart
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_NAME
     volumes:
       - db-data:/var/lib/mysql
     ports:
       - "3306:3306"
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      timeout: 20s
-      retries: 10
-    restart: always
 
   app:
-    image: ghcr.io/Safa-Kamal-q/E-commerce-Platform:$GIT_VERSION
-    restart: always
+    profiles:
+      - in_docker
+    container_name: express-docker
+    build: .
     environment:
       - PORT=80
-      - DB_HOST=mysql
-      - DB_USER=admin
+      - DB_HOST=db
+      - DB_USER=root
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=express-docker
     ports:
       - "80:80"
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
+      condition: service_healthy
 
-         
 volumes:
   db-data:
