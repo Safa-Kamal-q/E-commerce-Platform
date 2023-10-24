@@ -31,5 +31,6 @@ services:
       mysql:
         condition: service_healthy
 
-    volumes:
-      db-data:
+        
+volumes:
+  db-data:
