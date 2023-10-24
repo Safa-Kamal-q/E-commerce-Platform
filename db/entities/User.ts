@@ -30,14 +30,16 @@ export class User extends BaseEntity {
 
     @Column({
         type: 'enum',
-        enum: ['admin', 'buyer', 'seller', 'guest'],
-        default: 'guest'
+        enum: ['admin', 'buyer', 'seller'],
+        default: "seller"
     })
-    type: 'admin' | 'buyer' | 'seller' | 'guest'
+    type: "admin" | "buyer" | "seller"
 
-    //length: 10
     @Column({ nullable: false })
     phoneNumber: number
+
+    @Column('simple-array')
+    orders: string[]
 
     @CreateDateColumn({
         type: 'timestamp',
@@ -47,13 +49,13 @@ export class User extends BaseEntity {
 
     @ManyToMany(() => Role, { eager: true })
     @JoinTable()
-    roles: Role[];
+    roles: string[] | Role[];
 
-    @OneToOne(() => ShoppingCart) 
+    @OneToOne(() => ShoppingCart)
     @JoinColumn()
-    cart: ShoppingCart
+    cart: string[] | ShoppingCart
 
-    @OneToOne(() => PaymentInfo) 
+    @OneToOne(() => PaymentInfo)
     @JoinColumn()
     paymentInfo: PaymentInfo
 

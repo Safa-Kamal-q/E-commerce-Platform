@@ -1,10 +1,9 @@
 
 export namespace NSUser {
   export enum UserType {
-    seller = 'seller',
-    buyer = 'buyer',
-    admin = 'admin',
-    guest = 'guest'
+    seller = "seller",
+    buyer = "buyer",
+    admin = "admin"
   }
 
   export enum AccountType{
@@ -18,7 +17,7 @@ export namespace NSUser {
     email: string;
     password: string;
     country: string,
-    type: UserType,
+    type: NSUser.UserType,
     phoneNumber: number 
     createdAt: Date;
     roles: string[]
@@ -27,17 +26,17 @@ export namespace NSUser {
     paymentInfo?: string  //it will be id for single paymentInfo
 
     //This is for buyer type to add payment info 
-    nameForReceipt : string 
-    city: string 
-    fullAddress: string 
+    nameForReceipt? : string 
+    city?: string 
+    fullAddress?: string 
 
     //this is for seller type to create seller profile 
-    identityNumber: number
-    nickName: string
-    shopName: string
-    accountNumber: number
-    accountType: AccountType
-    shippingLocation: string
+    identityNumber?: number
+    nickName?: string
+    shopName?: string
+    accountNumber?: number
+    accountType?: AccountType
+    shippingLocation?: string
   }
 
   export interface Role {

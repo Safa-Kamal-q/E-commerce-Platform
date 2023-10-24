@@ -1,11 +1,12 @@
 import { NSOrderOneProduct } from "../@types/orderType.js";
+import { NSUser } from "../@types/userType.js";
 import dataSource from "../db/dataSource.js";
 import { OrderOneProduct } from "../db/entities/OrderOneProduct.js";
 import { Product } from "../db/entities/Product.js";
 import express from 'express'
+import { User } from "../db/entities/User.js";
 
-
-const createOrder = async (payload: NSOrderOneProduct.SingleOrder, paymentInfo: string) => {
+const createOrder = async (payload: NSOrderOneProduct.SingleOrder, user: NSUser.SingleUser) => {
     return dataSource.manager.transaction(async transaction => {
         try {
 
@@ -16,16 +17,21 @@ const createOrder = async (payload: NSOrderOneProduct.SingleOrder, paymentInfo: 
             const order = OrderOneProduct.create({
                 ...payload,
                 totalPrice,
-                paymentInfo
+                paymentInfo: user.paymentInfo
             });
 
             //this to decrease the product quantity 
-            if(product && payload.quantity){
-                product.quantity -= payload.quantity ;
+            if (product && payload.quantity) {
+                product.quantity -= payload.quantity;
                 await transaction.save(product);
             }
-            
+
+
             await transaction.save(order);
+
+            user.orders.push(order.id)
+            await transaction.save(user);
+
             return order;
         } catch (error) {
             console.error(error);
@@ -33,7 +39,6 @@ const createOrder = async (payload: NSOrderOneProduct.SingleOrder, paymentInfo: 
         }
     })
 }
-
 
 const getOrders = async () => {
     return await OrderOneProduct.find();
@@ -45,25 +50,8 @@ const getOrderByID = async (id: string) => {
 
 //if you ask about edit, we cannot edit the order 
 
-//can I deleted the order? 
-const deleteOrder = async (id: string, res: express.Response) => {
-    try {
-        const order = await OrderOneProduct.findOneBy({ id });
-        if (order) {
-            await order.remove();
-            res.status(200).send('The order deleted successfully ')
-        } else {
-            res.status(404).send('The order not found!, so cannot be deleted');
-        }
-    } catch (error) {
-        console.log(error)
-        res.status(500).send("Something went wrong")
-    }
-}
-
 export {
     createOrder,
     getOrders,
-    getOrderByID,
-    deleteOrder
+    getOrderByID
 }

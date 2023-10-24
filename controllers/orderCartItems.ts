@@ -4,8 +4,9 @@ import dataSource from "../db/dataSource.js";
 import { ShoppingCartItem } from "../db/entities/ShoppingCartItems.js";
 import { OrderCartItem } from "../db/entities/OrderCartItem.js";
 import express from 'express'
+import { NSUser } from "../@types/userType.js";
 
-const createOrderFromCart = (payload: NSOrderCartItem.SingleOrder, paymentInfo: string) => {
+const createOrderFromCart = (payload: NSOrderCartItem.SingleOrder, user: NSUser.SingleUser) => {
     return dataSource.manager.transaction(async transaction => {
         try {
 
@@ -22,10 +23,14 @@ const createOrderFromCart = (payload: NSOrderCartItem.SingleOrder, paymentInfo: 
                 ...payload,
                 cartItems,
                 totalPrice,
-                paymentInfo
+                paymentInfo: user.paymentInfo
             });
 
             await transaction.save(order);
+
+            user.orders.push(order.id)
+            await transaction.save(user);
+
             return order;
 
         } catch (error) {
