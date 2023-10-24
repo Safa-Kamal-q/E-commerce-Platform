@@ -29,6 +29,7 @@ services:
       - "80:80"
     depends_on:
       mysql:
+        condition: service_healthy
 
     volumes:
       db-data:
