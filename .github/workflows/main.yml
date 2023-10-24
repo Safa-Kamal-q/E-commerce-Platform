@@ -33,7 +33,12 @@ jobs:
       with:
         host: 3.71.188.147
         user: ubuntu
-        ssh-private-key: ${{ secrets.SSH_KEY }}
+        ssh-private-key: ${{ secrets.SSH_KEY }}  # Use your secret for the private key
+        port: 22
+        timeout: 30s
+        command_timeout: 10m
+        proxy_port: 22
+        proxy_timeout: 30s
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
       env:
