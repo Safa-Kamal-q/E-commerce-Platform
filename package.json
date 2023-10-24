@@ -53,8 +53,8 @@
     "mysql2": "^3.6.1",
     "nodemon": "^3.0.1",
     "reflect-metadata": "^0.1.13",
-    "stripe": "^13.10.0",
     "supertest": "^6.3.3",
+    "stripe": "^13.11.0",
     "typeorm": "^0.3.17",
     "validator": "^13.11.0",
     "winston": "^3.11.0"

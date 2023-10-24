@@ -14,6 +14,11 @@ import { OrderCartItem } from "./entities/OrderCartItem.js";
 import baseLogger from "../logger.js";
 dotenv.config(); // Load environment variables from .env file
 
+
+
+
+//////////////////////////////////////
+// // this to test locally 
 // const dataSource = new DataSource({
 //     type: 'mysql',
 //     host: process.env.MYSQL_ADDON_HOST,
@@ -54,7 +59,7 @@ const dataSource = new DataSource({
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     // username: process.env.DB_USER,
-    username: 'root',
+    username: 'admin',
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     entities: [
