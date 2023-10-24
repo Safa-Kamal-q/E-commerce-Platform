@@ -29,12 +29,13 @@ jobs:
       run: docker build . --file Dockerfile --tag ghcr.io/safa-kamal-q/e-commerce-platform:9d3bc24
 
     - name: Publish docker image
-      uses: appleboy/ssh-action@0.1.4
+      uses: appleboy/ssh-action@master
       with:
-        host: 3.71.188.147
-        user: ubuntu
-        ssh-private-key: ${{ secrets.SSH_KEY }}  # Use your secret for the private key
-        port: 22
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+        SOURCE: "./"
+        REMOTE_HOST: ${{ secrets.HOST_DNS }}
+        REMOTE_USER: ${{ secrets.USERNAME }}
+        TARGET: "home"
         
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
