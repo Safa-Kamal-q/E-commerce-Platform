@@ -33,7 +33,7 @@ jobs:
       with:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
         SOURCE: "./"
-        REMOTE_HOST: ${{ secrets.HOST_DNS }}
+        REMOTE_HOST: 3.71.188.147
         REMOTE_USER: ${{ secrets.USERNAME }}
         TARGET: "home"
         
