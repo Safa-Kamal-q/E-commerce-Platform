@@ -14,8 +14,8 @@ RUN npm ci
 
 # Now copy the project files
 ADD . . 
-# run the app
-RUN npm run dev
+# build the app
+RUN npm run build-tsc
 
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -f http://localhost/ || exit 1
