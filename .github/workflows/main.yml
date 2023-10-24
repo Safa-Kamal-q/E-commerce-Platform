@@ -31,7 +31,7 @@ jobs:
     - name: Publish docker image
       uses: appleboy/ssh-action@master
       with:
-        host: ec2-3-71-188-147.eu-central-1.compute.amazonaws.com
+        host: 3.71.188.147
         user: ubuntu
         ssh-private-key: ${{ secrets.SSH_KEY }}
     - name: deploy
