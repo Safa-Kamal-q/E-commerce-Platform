@@ -16,15 +16,6 @@ dotenv.config(); // Load environment variables from .env file
 
 
 
-export const initDB = async () =>
-    await dataSource.initialize().then(() => {
-        console.log('DB connected');
-    }).catch(err => {
-        console.log("DB connection failed", err);
-    });
-
-
-
 
 //////////////////////////////////////
 // // this to test locally 
