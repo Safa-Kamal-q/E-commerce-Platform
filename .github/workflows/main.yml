@@ -30,12 +30,11 @@ jobs:
 
     - name: Publish docker image
       uses: appleboy/ssh-action@0.1.4
-      env:
-         SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
-         SOURCE: "./"
-         REMOTE_HOST: ${{ secrets.HOST_DNS }}
-         REMOTE_USER: ${{ secrets.USERNAME }}
-         TARGET: "home"
+      with:
+        host: 3.71.188.147
+        user: ubuntu
+        ssh-private-key: ${{ secrets.SSH_KEY }}  # Use your secret for the private key
+        port: 22
         
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
