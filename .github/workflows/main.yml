@@ -32,10 +32,9 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
-        source: "./"
         host: 172.31.22.58
         user: ubuntu
-        target: "home"
+        
         
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
