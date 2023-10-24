@@ -2,56 +2,51 @@ name: Combined Workflow
 
 on:
   push:
-    branches: [main]
+    branches: [ "main" ]
   pull_request:
-    branches: [main]
+    branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    
+    - name: Set image version (tag)
+      id: image_version
+      run: echo "gitsha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Set image version (tag)
-        id: image_version
-        run: echo "gitsha=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    - name: Login to Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: Safa-Kamal-q
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ghcr.io/safa-kamal-q/e-commerce-platform:9d3bc24
 
-      - name: Login to Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish docker image
+      run: docker push ghcr.io/safa-kamal-q/e-commerce-platform:${{ steps.image_version.outputs.gitsha }}
 
-      - name: Build and tag the Docker image
-        run: docker build . --file Dockerfile --tag ghcr.io/safa-kamal-q/e-commerce-platform:9d3bc24
+    - name: configure docker host
+      uses: khaledez/configure-docker-host@v1
+      with:
+        host: 3.71.188.147
+        user: github
+        ssh-private-key: ${{ secrets.SSH_KEY }}  # Use your secret for the private key
+        
+    - name: deploy
+      run: docker compose -f docker-compose-prod.yml up -d
+      env:
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        GIT_VERSION: ${{ steps.image_version.outputs.gitsha }}
+    - name: print logs
+      if: always() # This step will be executed even if previous steps fail
 
-      - name: Transfer Docker Image to EC2
-        run: |
-          docker save ghcr.io/safa-kamal-q/e-commerce-platform:9d3bc24 | gzip -c > image.tar.gz
-          scp -i xpresscart.pem -o StrictHostKeyChecking=no image.tar.gz ubuntu@ec2-3-71-188-147.eu-central-1.compute.amazonaws.com:~
-          ssh -i xpresscart.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-71-188-147.eu-central-1.compute.amazonaws.com "docker load -i ~/image.tar.gz"
-        env:
-           gitsha: cf1d35e
-
-
-      - name: Deploy Node.js Application
-        run: |
-          # Execute your Node.js application deployment commands here
-          ssh -i "xpresscart.pem" -o StrictHostKeyChecking=no ubuntu@ec2-3-71-188-147.eu-central-1.compute.amazonaws.com "cd /path/to/your/app && docker-compose -f docker-compose-prod.yml up -d"
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          GIT_VERSION: ${{ steps.image_version.outputs.gitsha }}
-
-      - name: Print Deployment Logs
-        if: always()
-        run: docker-compose -f docker-compose-prod.yml logs
+      run: docker compose logs
 
   deploy:
     name: Push to EC2
