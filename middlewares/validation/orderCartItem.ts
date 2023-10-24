@@ -17,10 +17,9 @@ const validateOrderCartItem = async (req: express.Request, res: express.Response
         }
     })
 
-    //this is important but first make sure that authorize is correct
-    // if(type !== 'buyer'){
-    //     errorList.push("You are not buyer so cannot create this order")
-    // }
+    if (type !== 'buyer') {
+        errorList.push("You are not buyer so cannot create this order")
+    }
 
     if (orderCartItem.cartItems) {
         const missingItems: string[] = [];

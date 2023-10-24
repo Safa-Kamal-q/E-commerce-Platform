@@ -20,10 +20,9 @@ const validateOrderOneProduct = async (req: express.Request, res: express.Respon
         errorList.push("The product not found")
     }
 
-    //this is important but first make sure that authorize is correct
-    // if(type !== 'buyer'){
-    //     errorList.push("You are not buyer so cannot create this order")
-    // }
+    if(type !== 'buyer'){
+        errorList.push("You are not buyer so cannot create this order")
+    }
 
     if (existProduct && order.quantity > existProduct.quantity) {
         errorList.push(`Not enough quantity available for product: ${existProduct.title} which has this id: ${existProduct.id}`)

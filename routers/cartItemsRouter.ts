@@ -23,7 +23,7 @@ router.post('/', authenticate, authorize('POST_cart-items/'), validateCartItem, 
 
 router.get('/', authenticate, authorize('GET_cart-items/'), (req, res, next) => {
     getOneCartItems().then(data => {
-        res.status(201).send(data)
+        res.status(200).send(data)
     }).catch(err => {
         next({
             status: 500,
@@ -42,7 +42,7 @@ router.get('/:id', authenticate, authorize('GET_cart-items/:id'), (req, res, nex
                 message: `The cart-items with this Id: ${id} not found`
             })
         } else {
-            res.status(201).send(data)
+            res.status(200).send(data)
         }
     }).catch(err => {
         next({
@@ -72,7 +72,7 @@ router.get(
 
         } else {
             getAllCartItems(id).then(data => {
-                res.status(201).send(data)
+                res.status(200).send(data)
             }).catch(err => {
                 next({
                     status: 500,

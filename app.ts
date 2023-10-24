@@ -3,7 +3,8 @@ import express from 'express';
 import "reflect-metadata"
 import baseLogger from './logger.js';
 import {initDB} from './db/dataSource.js'
-import usersRouter from './routers/authRouter.js'
+import authRouter from './routers/authRouter.js'
+import userRouter from './routers/userRouter.js'
 import roleRouter from './routers/roleRouter.js'
 import permissionRouter from './routers/permissionRouter.js'
 import productRouter from './routers/productRouter.js'
@@ -51,7 +52,8 @@ app.get('/', (req, res) => {
 });
 
 
-app.use('/users', usersRouter);
+app.use('/users', authRouter);
+app.use('/users', userRouter);
 app.use('/roles', roleRouter)
 app.use('/permissions', permissionRouter)
 app.use('/products', productRouter)
