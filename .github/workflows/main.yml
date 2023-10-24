@@ -29,7 +29,7 @@ jobs:
       run: docker build . --file Dockerfile --tag ghcr.io/safa-kamal-q/e-commerce-platform:9d3bc24
 
     - name: Publish docker image
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v0.1.10
       with:
         host: 3.71.188.147
         user: ubuntu
