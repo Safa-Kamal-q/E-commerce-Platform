@@ -28,7 +28,7 @@ router.post("/login", (req, res, next) => {
                 maxAge: 60 * 60 * 1000
             });
             res.cookie('token', data.token, {
-                maxAge: 60 * 60 * 1000
+                maxAge: 60 * 60 * 60 * 1000
             });
 
             res.send(data);
