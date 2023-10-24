@@ -1,10 +1,9 @@
-version: '3'
+ version: '3'
 
 services:
   mysql:
-    container_name: db
     image: mysql
-    environment:
+    environment: 
       - MYSQL_ADMIN_PASSWORD=$DB_PASSWORD
       - MYSQL_DATABASE=xpresscart
     volumes:
