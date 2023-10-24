@@ -31,11 +31,11 @@ jobs:
     - name: Publish docker image
       uses: appleboy/ssh-action@master
       with:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
-        SOURCE: "./"
-        REMOTE_HOST: ${{ secrets.HOST_DNS }}
-        REMOTE_USER: ${{ secrets.USERNAME }}
-        TARGET: "home"
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+        source: "./"
+        host: 172.31.22.58
+        user: ${{ secrets.USERNAME }}
+        target: "home"
         
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
