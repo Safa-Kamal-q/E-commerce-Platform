@@ -39,7 +39,9 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_KEY }}  # Use your secret for the private key
         
     - name: deploy
-      run: docker compose -f docker-compose-prod.yml up -d
+      run: |
+        cd path/to/your/subdirectory
+        docker compose -f docker-compose-prod.yml up -d
       env: 
         DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         GIT_VERSION: ${{steps.image_version.outputs.gitsha}}
