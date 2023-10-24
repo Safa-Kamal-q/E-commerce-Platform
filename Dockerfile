@@ -1,8 +1,7 @@
 # The base image that will have node dep
-FROM node:20-alpine
-
+FROM node:latest
 # Set the current working directory in the container
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 
 RUN apk add curl
 
