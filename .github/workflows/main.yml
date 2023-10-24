@@ -26,7 +26,7 @@ jobs:
         username: Safa-Kamal-q
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/safa-kamal-q/e-commerce-platform:9d3bc24
+      run: docker build . --file Dockerfile --tag ghcr.io/safa-kamal-q/e-commerce-platform:${{ steps.image_version.outputs.gitsha }}
 
     - name: Publish docker image
       run: docker push ghcr.io/safa-kamal-q/e-commerce-platform:${{ steps.image_version.outputs.gitsha }}
