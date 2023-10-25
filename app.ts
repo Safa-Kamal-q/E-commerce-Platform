@@ -1,6 +1,7 @@
 import './config.js';
 import express from 'express';
 import "reflect-metadata"
+import mysql from 'mysql2'
 import baseLogger from './logger.js';
 import {initDB} from './db/dataSource.js'
 import authRouter from './routers/authRouter.js'
@@ -16,8 +17,6 @@ import { error404Handler, errorLogger, errorSender } from './middlewares/errorHa
 
 import cors from 'cors'; // Import the cors middleware
 import Stripe from 'stripe';
-
-
 
 
 const app = express();
@@ -64,6 +63,8 @@ app.use('/order-cart-items', orderCartItems)
 app.use(errorLogger);
 app.use(errorSender);
 app.use(error404Handler);
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
