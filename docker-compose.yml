@@ -10,7 +10,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - "3306:3306"
 
   app:
     profiles:
@@ -22,7 +22,7 @@ services:
       - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=$DB_PASSWORD
-      - DB_NAME=express-docker
+      - DB_NAME=xpresscart
     ports:
       - "3000:80"
     depends_on:
