@@ -34,7 +34,7 @@ jobs:
     - name: configure docker host
       uses: khaledez/configure-docker-host@v1
       with:
-        host: 3.71.188.147
+        host: 35.158.122.1
         user: ubuntu
         ssh-private-key: ${{ secrets.SSH_KEY }}  # Use your secret for the private key
         
@@ -60,6 +60,6 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
           SOURCE: "./"
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_HOST: ec2-35-158-122-1.eu-central-1.compute.amazonaws.com
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: "~"
