@@ -6,7 +6,6 @@
 - **[Tech Stack](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-tech-stack)**
 - **[Installation and Usage](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-installation-and-usage)**
 - **[Libraries](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-libraries)**
-- **[API documentation](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-api-documentation)**
 - **[Contributing](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-contributing)**
 
 ## ✨️ Introduction
@@ -100,6 +99,9 @@ The main objective of this project is to create a robust backend system for an E
 * bcrypt: Library for hashing passwords securely.
 * winston: to add logger.
 * multer: for reading files from postman (image file).
+
+## ✨️ API Documentation
+You can see it by clicking [here](https://innovative-starfish-d94.notion.site/API-Documentation-d9708f04b5fe408e8dc30e9d2fae15f8?pvs=4) 
 
 ## ✨️ Contributing
 Thank you for your time.🌼 Contributions to the project are welcome. If you find a bug or want to add a new feature, please create a new issue or pull request.
