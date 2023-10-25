@@ -6,6 +6,7 @@
 - **[Tech Stack](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-tech-stack)**
 - **[Installation and Usage](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-installation-and-usage)**
 - **[Libraries](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-libraries)**
+- **[API documentation](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-api-documentation)**
 - **[Contributing](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-contributing)**
 
 ## ✨️ Introduction
