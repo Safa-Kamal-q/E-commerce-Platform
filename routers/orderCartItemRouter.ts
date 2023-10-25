@@ -1,7 +1,7 @@
 import express from 'express'
 import { authenticate } from '../middlewares/auth/authenticate.js'
 import { authorize } from '../middlewares/auth/authorize.js'
-import { createOrderFromCart, deleteOrder, getOrderByID, getOrders } from '../controllers/orderCartItems.js'
+import { createOrderFromCart, getOrderByID, getOrders } from '../controllers/orderCartItems.js'
 import { validateOrderCartItem } from '../middlewares/validation/orderCartItem.js'
 
 const router = express.Router()
@@ -49,9 +49,5 @@ router.get('/:id', authenticate, authorize('GET_order-cart-items/:id'), (req, re
         })
     })
 })
-
-router.delete('/:id', authenticate, authorize('DELETE_order-cart-items/:id'), async (req, res, next) => {
-    deleteOrder(req.params.id, res);
-});
 
 export default router 

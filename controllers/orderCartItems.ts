@@ -50,25 +50,8 @@ const getOrderByID = async (id: string) => {
 
 //if you ask about edit, we cannot edit the order 
 
-//can I deleted the order? 
-const deleteOrder = async (id: string, res: express.Response) => {
-    try {
-        const order = await OrderCartItem.findOneBy({ id });
-        if (order) {
-            await order.remove();
-            res.status(200).send('The order deleted successfully ')
-        } else {
-            res.status(404).send('The order not found!, so cannot be deleted');
-        }
-    } catch (error) {
-        console.log(error)
-        res.status(500).send("Something went wrong")
-    }
-}
-
 export{
     createOrderFromCart,
     getOrders,
-    getOrderByID,
-    deleteOrder
+    getOrderByID
 }

@@ -22,6 +22,7 @@ const insertUser = async (payload: NSUser.SingleUser) => {
             newUser.country = payload.country
             newUser.type = payload.type
             newUser.phoneNumber= payload.phoneNumber
+            newUser.orders= []
 
             //the admin user just to manage the system so he hasn't orders, and has all roles by default 
             if (newUser.type !== 'admin') {

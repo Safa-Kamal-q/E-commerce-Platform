@@ -18,7 +18,7 @@ export namespace NSUser {
     password: string;
     country: string,
     type: NSUser.UserType,
-    phoneNumber: number 
+    phoneNumber: string
     createdAt: Date;
     roles: string[]
     orders: string[]
