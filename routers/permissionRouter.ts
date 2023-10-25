@@ -1,7 +1,8 @@
 import express from 'express'
 import { authenticate } from '../middlewares/auth/authenticate.js';
 import { authorize } from '../middlewares/auth/authorize.js';
-import { getPermission, getPermissionByID, insertPermission } from '../controllers/permissionController.js';
+import { deletePermission, getPermission, getPermissionByID, insertPermission } from '../controllers/permissionController.js';
+import { Permission } from '../db/entities/Permission.js';
 
 const router = express.Router();
 
@@ -57,5 +58,20 @@ router.get('/:id', authenticate, authorize('GET_permissions/:id'), (req, res, ne
         })
     })
 })
+
+router.delete('/:permissionName', authenticate, authorize('DELETE_permissions/:permissionName'), async (req, res) => {
+    const permissionName = req.params.permissionName
+    const existPermission = await Permission.findOne({ where: { name: permissionName } })
+
+    if (!existPermission) {
+        return res.status(404).send("permission doesn't exist")
+    }
+
+    deletePermission(existPermission).then(data => {
+        res.status(200).send("Permission deleted successfully")
+    }).catch(err => {
+        res.status(500).send("Something went wrong")
+    })
+});
 
 export default router 

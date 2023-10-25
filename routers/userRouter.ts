@@ -11,7 +11,7 @@ const router = express.Router()
 
 router.get('/', authenticate, authorize('GET_users/'), (req, res, next) => {
     getUsers().then(data => {
-        res.status(201).send(data)
+        res.status(200).send(data)
     }).catch(err => {
         next({
             status: 500,
@@ -40,16 +40,20 @@ router.get('/:email', authenticate, authorize('GET_users/:email'), (req, res, ne
 })
 
 
-//must send email and password as query 
-router.put('/password', authenticate, authorize("PUT_users/password"), async (req, res, next) => {
-    const email = req.query.email as string
-    const oldPassword = req.query.oldPassword as string
+//must send email and password and password as query 
+router.put('/password/', authenticate, authorize("PUT_users/password/"), async (req, res, next) => {
+    const email = req.query.email as string | ''
+    const oldPassword = req.query.oldPassword as string | ''
     const user = res.locals.user
     const newPassword = req.body.newPassword
 
     const existUser= await User.findOne({ where: { email }});
     if(!existUser){
         return res.status(404).send("User doesn't exist")
+    }
+
+    if(!oldPassword){
+        return res.status(400).send("You must provide the old password to update it")
     }
 
     const passwordMatching = await bcrypt.compare(oldPassword , user?.password || '')
@@ -76,8 +80,8 @@ router.put('/password', authenticate, authorize("PUT_users/password"), async (re
     })
 })
 
-//I must send email as query for validateUserUpdate
-router.put('/:id', authenticate, authorize("PUT_users/"), validateUserUpdate, (req, res, next) => {
+//I must send email and password as query for validateUserUpdate
+router.put('/', authenticate, authorize("PUT_users/"), validateUserUpdate, (req, res, next) => {
     updateUserInfo(req.params.id, req.body).then(data => {
         res.status(200).send("User updated successfully")
     }).catch(error => {
@@ -89,27 +93,33 @@ router.put('/:id', authenticate, authorize("PUT_users/"), validateUserUpdate, (r
     })
 })
 
-
-router.delete('/:id', authenticate, authorize('DELETE_users/:id'), async (req, res) => {
-    const id = req.params.id
+//must send email and password  as query 
+router.delete('/', authenticate, authorize('DELETE_users/'), async (req, res) => {
+    const email = req.params.email as string 
+    const password = req.params.password
     const user = res.locals.user
 
-    if (user.type !== 'admin' && (user.email !== req.query.email || user.id !== id)) {
-        res.status(403).send("You don't have the permission to delete another user")
-        return
+    if (!password && !email){
+        return res.status(400).send("Your email and password require for deleting")
     }
-    deleteUser(id, res);
+
+    const passwordMatching = await bcrypt.compare(password , user?.password || '')
+    if ( user.type !== 'admin' && (user.email !== email || !passwordMatching)) {
+        return res.status(403).send("Your email and password not correct")
+    }
+
+    deleteUser(email, res);
 });
 
-router.get('/orders/:id/:email', authenticate, authorize('GET_users/orders/:id'), async (req, res, next) => {
+router.get('/orders/:id', authenticate, authorize('GET_users/orders/:id'), async (req, res, next) => {
     const existUser = await User.findOneBy({ id: req.params.id });
     if (!existUser) {
-        res.status(404).send("User not found")
-        return
+        return res.status(404).send("User not found") 
     }
-    if (existUser && existUser.type !== "buyer") {
-        res.status(400).send("The type of user is not buyer so he/she hasn't have product")
-        return
+
+    if (existUser.type !== "buyer") {
+        return res.status(400).send("The type of user is not buyer so he/she hasn't have product")
+        
     }
 
     ordersForUser(existUser).then(data => {

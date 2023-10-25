@@ -10,10 +10,10 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column({ length: 255, nullable: false /*is this true since I have guest user ?*/ })
+    @Column({ length: 255, nullable: false })
     userName: string
 
-    @Column({ nullable: false /*is this true since I have guest user ?*/ })
+    @Column({ nullable: false })
     email: string
 
     @Column({ nullable: false })
@@ -25,7 +25,7 @@ export class User extends BaseEntity {
             this.password = await bcrypt.hash(this.password, 10)
         }
     }
-    @Column({ nullable: false /*is this true since I have guest user ?*/ })
+    @Column({ nullable: false })
     password: string;
 
     @Column({
@@ -36,7 +36,7 @@ export class User extends BaseEntity {
     type: "admin" | "buyer" | "seller"
 
     @Column({ nullable: false })
-    phoneNumber: number
+    phoneNumber: string
 
     @Column('simple-array')
     orders: string[]
