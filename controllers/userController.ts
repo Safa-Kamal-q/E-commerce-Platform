@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import { OrderOneProduct } from "../db/entities/OrderOneProduct.js";
 import { User } from "../db/entities/User.js";
 import express from 'express'
+import { OrderCartItem } from '../db/entities/OrderCartItem.js';
 
 
 const getUsers = async () => {
@@ -47,12 +48,13 @@ const updatePassword = async (existUser: User, newPassword: string) => {
     }
 }
 
-const deleteUser = async (id: string, res: express.Response) => {
+const deleteUser = async (email: string, res: express.Response) => {
     try {
-        const user = await User.findOneBy({ id });
+        const user = await User.findOne({where: { email }});
+
         if (user) {
             await user.remove();
-            res.status(200).send('The user deleted successfully ')
+            res.status(200).send('The user deleted successfully')
         } else {
             res.status(404).send('The user not found');
         }
@@ -67,8 +69,10 @@ const ordersForUser = async (existUser: User) => {
         const orders: any[] = []
         if (existUser) {
             for (const orderId of existUser.orders) {
-                const order = await OrderOneProduct.findOneBy({ id: orderId });
-                orders.push(order)
+                const order = await OrderOneProduct.findOne({ where: { id: orderId }, relations: ['paymentInfo', 'product'] });
+                const orderCartItem = await OrderCartItem.findOne({ where: { id: orderId }, relations: ['paymentInfo', 'cartItems'] });
+                if (order) orders.push(order)
+                if (orderCartItem) orders.push(orderCartItem)
             }
             return orders
         }

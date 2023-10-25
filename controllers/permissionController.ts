@@ -22,8 +22,19 @@ const getPermissionByID = async (id: number) => {
     return await Permission.findBy({ id });
 }
 
+const deletePermission = async (permission: Permission) => {
+    try {
+        await permission.remove();
+        return ('The Product deleted successfully ')
+    } catch (error) {
+        console.log(error)
+        throw ("Something went wrong")
+    }
+}
+
 export {
     insertPermission,
     getPermission,
-    getPermissionByID
+    getPermissionByID,
+    deletePermission
 }
