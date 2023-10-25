@@ -7,6 +7,7 @@ import {initDB} from './db/dataSource.js'
 import authRouter from './routers/authRouter.js'
 import userRouter from './routers/userRouter.js'
 import roleRouter from './routers/roleRouter.js'
+import paymentRoute from './routers/paymentRouter.js';
 import permissionRouter from './routers/permissionRouter.js'
 import productRouter from './routers/productRouter.js'
 import cartItemsRouter from './routers/cartItemsRouter.js'
@@ -22,7 +23,7 @@ import Stripe from 'stripe';
 const app = express();
 const PORT = 3000;
 
-
+app.use('/', paymentRoute);
 app.use(express.json());
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
