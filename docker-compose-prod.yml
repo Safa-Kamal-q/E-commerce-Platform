@@ -22,7 +22,7 @@ services:
       - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=$DB_PASSWORD
-      - DB_NAME=express-docker
+      - DB_NAME=xpresscart
     ports:
       - "80:80"
     depends_on:
