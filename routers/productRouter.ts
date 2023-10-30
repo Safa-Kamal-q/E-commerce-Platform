@@ -5,6 +5,7 @@ import { authenticate } from '../middlewares/auth/authenticate.js'
 import { authorize } from '../middlewares/auth/authorize.js'
 import { SellerProfile } from '../db/entities/SellerProfile.js'
 import multer from 'multer'
+import ApiError from '../middlewares/errorHandlers/apiError.js'
 
 const router = express.Router()
 
@@ -25,27 +26,24 @@ router.post(
     upload.single('image'), validateProduct,
     (req, res, next) => {
         if (!req.file) {
-            return res.status(400).send("No file uploaded for product image.");
+            return next(new ApiError("No file uploaded for product image.", 400))
         }
         if (req.file && req.file.fieldname !== "image") {
-            return res.status(400).send("the field name for product's image must be 'image'.")
+            return next(new ApiError("the field name for product's image must be 'image'.", 400))
         }
 
         insertProduct(req.body, req.file).then(data => {
             res.status(201).send('The product added successfully')
         }).catch(err => {
-            next({
-                status: 500,
-                message: "Something went wrong"
-            })
+            next(new ApiError('', 500))
         })
     })
 
-router.get('/', authenticate, authorize('GET_products/'), (req, res) => {
+router.get('/', authenticate, authorize('GET_products/'), (req, res, next) => {
     getProducts().then(data => {
-        res.status(201).send(data)
+        res.status(200).send(data)
     }).catch(err => {
-        res.status(500).send(err)
+        next(new ApiError('', 500))
     })
 })
 
@@ -53,19 +51,12 @@ router.get('/:id', authenticate, authorize('GET_products/:id'), (req, res, next)
     const id = req.params.id
     getProductByID(id).then(data => {
         if (data.length === 0) {
-            next({
-                code: 'not found',
-                status: 404,
-                message: `The product with this Id: ${id} not found`
-            })
+            next(new ApiError(`The product with this Id: ${id} not found`, 404))
         } else {
-            res.status(201).send(data)
+            res.status(200).send(data)
         }
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(new ApiError('', 500))
     })
 })
 
@@ -81,20 +72,13 @@ router.get(
         });
 
         if (!existingSellerProfile) {
-            next({
-                code: 'not found',
-                status: 404,
-                message: `The seller doesn't exist or the seller has no products yet`
-            })
+            next(new ApiError(`The seller doesn't exist or the seller has no products yet`, 404))
 
         } else {
             getSellerProducts(id).then(data => {
-                res.status(201).send(data)
+                res.status(200).send(data)
             }).catch(err => {
-                next({
-                    status: 500,
-                    message: "Something went wrong"
-                })
+                next(new ApiError('', 500))
             })
         }
     })
@@ -124,15 +108,11 @@ router.put("/gallery-images/:id",
         })
 
         if (errorList.length !== 0) {
-            next({
-                code: 'validation',
-                status: 400,
-                message: errorList
-            })
+            return res.status(400).send(errorList)
         }
 
         if (!req.files) {
-            return res.status(400).send("No file uploaded for product image.");
+            return next(new ApiError("No file uploaded for product image.", 400))
         }
 
         const files: Express.Multer.File[] = req.files as Express.Multer.File[];

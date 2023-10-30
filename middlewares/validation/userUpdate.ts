@@ -2,6 +2,7 @@ import express, { NextFunction } from 'express'
 import { User } from '../../db/entities/User.js';
 import bcrypt from 'bcrypt'
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
+import ApiError from '../errorHandlers/apiError.js';
 
 const validateUserUpdate = async (req: express.Request, res: express.Response, next: NextFunction) => {
     const errorList: String[] = [];
@@ -11,30 +12,18 @@ const validateUserUpdate = async (req: express.Request, res: express.Response, n
     const password= req.query.password as string
 
     if (!password || !email ){
-        next({
-            code: 'validation',
-            status: 400,
-            message: "You must provide email and password to update your info"
-        })
+        next(new ApiError("You must provide email and password to update your info", 400))
     }
 
     const passwordMatching = await bcrypt.compare(password , user?.password || '')
     if (user.type!=='admin' && (user.email !== email || !passwordMatching)) {
-        next({
-            code: 'authorize',
-            status: 403,
-            message: "You don't have the permission to update another user values"
-        })
+        next(new ApiError("You don't have the permission to update another user values", 403))
     }
 
     const existUser = await User.findOne({ where: { email }});
 
     if(!existUser){
-        next({
-            code: 'not found',
-            status: 404,
-            message: "User not found"
-        })
+        next(new ApiError("User not found", 404))
     }
 
     if(userValues.password){
@@ -57,11 +46,7 @@ const validateUserUpdate = async (req: express.Request, res: express.Response, n
     }
 
     if (errorList.length > 0) {
-        next({
-            code: 'validation',
-            status: 400,
-            message: errorList
-        })
+        res.status(400).send(errorList)
     } else {
         next();
     }

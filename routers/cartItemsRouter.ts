@@ -4,6 +4,7 @@ import { authenticate } from '../middlewares/auth/authenticate.js'
 import { authorize } from '../middlewares/auth/authorize.js'
 import { deleteCartItem, getAllCartItems, getCartItemByID, getOneCartItems, insertCartItem, updateCartItem } from '../controllers/cartItemsController.js'
 import { ShoppingCart } from '../db/entities/ShoppingCart.js'
+import ApiError from '../middlewares/errorHandlers/apiError.js'
 
 const router = express.Router()
 
@@ -14,10 +15,7 @@ router.post('/', authenticate, authorize('POST_cart-items/'), validateCartItem, 
     insertCartItem(req.body, cart, product).then(data => {
         res.status(201).send('The cart item added successfully')
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(next(new ApiError('', 500)))
     })
 })
 
@@ -25,10 +23,7 @@ router.get('/', authenticate, authorize('GET_cart-items/'), (req, res, next) => 
     getOneCartItems().then(data => {
         res.status(200).send(data)
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(next(new ApiError('', 500)))
     })
 })
 
@@ -36,19 +31,13 @@ router.get('/:id', authenticate, authorize('GET_cart-items/:id'), (req, res, nex
     const id = req.params.id
     getCartItemByID(id).then(data => {
         if (data.length === 0) {
-            next({
-                code: 'not found',
-                status: 404,
-                message: `The cart-items with this Id: ${id} not found`
-            })
+            next(new ApiError(`The cart-items with this Id: ${id} not found`, 404))
+            
         } else {
             res.status(200).send(data)
         }
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(next(new ApiError('', 500)))
     })
 })
 
@@ -64,32 +53,25 @@ router.get(
         });
 
         if (!existingCart) {
-            next({
-                code: 'not found',
-                status: 404,
-                message: `The cart doesn't exist or the cart has no items yet`
-            })
+            next(new ApiError(`The cart doesn't exist or the cart has no items yet`, 404))
 
         } else {
             getAllCartItems(id).then(data => {
                 res.status(200).send(data)
             }).catch(err => {
-                next({
-                    status: 500,
-                    message: "Something went wrong"
-                })
+                next(next(new ApiError('', 500)))
             })
         }
     })
 
-router.delete('/:id', authenticate, authorize('DELETE_cart-items/:id'), async (req, res) => {
+router.delete('/:id', authenticate, authorize('DELETE_cart-items/:id'), async (req, res, next) => {
     const id = req.params.id
-    deleteCartItem(id, res);
+    deleteCartItem(id, res, next);
 });
 
-router.put('/:id', authenticate, authorize('PUT_cart-items/:id'), async (req, res) => {
+router.put('/:id', authenticate, authorize('PUT_cart-items/:id'), async (req, res, next) => {
     const id = req.params.id
-    updateCartItem(id, req.body, res)
+    updateCartItem(id, req.body, res, next)
 })
 
 export default router

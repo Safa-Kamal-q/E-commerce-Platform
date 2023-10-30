@@ -1,6 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../../db/entities/User.js';
+import ApiError from '../errorHandlers/apiError.js';
 
 const authenticate = async (
   req: express.Request,
@@ -19,11 +20,7 @@ const authenticate = async (
     res.locals.user = user;
     next();
   } else {
-    next({
-      code: 'authenticate',
-      status: 401,
-      message: "You are Unauthorized!"
-    })
+    next(new ApiError("You are Unauthorized!", 401))
   }
 }
 

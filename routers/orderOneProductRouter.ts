@@ -3,6 +3,7 @@ import { validateOrderOneProduct } from '../middlewares/validation/orderOneProdu
 import { createOrder, getOrderByID, getOrders } from '../controllers/orderOneProductControllers.js'
 import { authenticate } from '../middlewares/auth/authenticate.js'
 import { authorize } from '../middlewares/auth/authorize.js'
+import ApiError from '../middlewares/errorHandlers/apiError.js'
 
 const router = express.Router()
 
@@ -15,10 +16,7 @@ router.post('/', authenticate,
         createOrder(req.body, user).then(() => {
             res.status(201).send("Order added successfully")
         }).catch(err => {
-            next({
-                status: 500,
-                message: "Something went wrong"
-            })
+            next(new ApiError('', 500))
         })
     })
 
@@ -26,10 +24,7 @@ router.get('/', authenticate, authorize('GET_order-one-product/'), (req, res, ne
     getOrders().then(data => {
         res.status(201).send(data)
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(new ApiError('', 500))
     })
 })
 
@@ -37,19 +32,12 @@ router.get('/:id', authenticate, authorize('GET_order-one-product/:id'), (req, r
     const id = req.params.id
     getOrderByID(id).then(data => {
         if (data.length === 0) {
-            next({
-                code: 'not found',
-                status: 404,
-                message: `The order with this Id: ${id} not found`
-            })
+            next(new ApiError(`The order with this Id: ${id} not found`, 404))
         } else {
             res.status(201).send(data)
         }
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(new ApiError('', 500))
     })
 })
 

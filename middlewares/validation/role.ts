@@ -21,11 +21,7 @@ const validateRole = async (req: express.Request, res: express.Response, next: N
     }
 
     if (errorList.length > 0) {
-        next({
-            code: 'validation',
-            status: 400,
-            message: errorList
-        })
+        res.status(400).send(errorList)
     } else {
         next();
     }

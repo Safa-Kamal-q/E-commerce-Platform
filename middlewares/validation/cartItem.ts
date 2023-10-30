@@ -2,6 +2,7 @@ import express, { NextFunction } from 'express'
 import { ShoppingCart } from '../../db/entities/ShoppingCart.js';
 import { Product } from '../../db/entities/Product.js';
 import { ShoppingCartItem } from '../../db/entities/ShoppingCartItems.js';
+import ApiError from '../errorHandlers/apiError.js';
 
 const validateCartItem = async (req: express.Request, res: express.Response, next: NextFunction) => {
     const errorList: String[] = [];
@@ -48,11 +49,7 @@ const validateCartItem = async (req: express.Request, res: express.Response, nex
     }
 
     if (errorList.length > 0) {
-        next({
-            code: 'validation',
-            status: 400,
-            message: errorList
-        })
+        res.status(400).send(errorList)
     } else {
         res.locals.existingCart = existingCart
         res.locals.existingProduct = existingProduct

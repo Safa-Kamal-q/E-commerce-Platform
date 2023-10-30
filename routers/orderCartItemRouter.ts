@@ -3,6 +3,7 @@ import { authenticate } from '../middlewares/auth/authenticate.js'
 import { authorize } from '../middlewares/auth/authorize.js'
 import { createOrderFromCart, getOrderByID, getOrders } from '../controllers/orderCartItems.js'
 import { validateOrderCartItem } from '../middlewares/validation/orderCartItem.js'
+import ApiError from '../middlewares/errorHandlers/apiError.js'
 
 const router = express.Router()
 
@@ -12,10 +13,7 @@ router.post('/', authenticate, authorize('POST_order-cart-items/'), validateOrde
     createOrderFromCart(req.body, paymentInfo).then(() => {
         res.status(201).send("Order created successfully")
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(new ApiError('', 500))
     })
 })
 
@@ -23,10 +21,7 @@ router.get('/', authenticate, authorize('GET_order-cart-items/'), (req, res, nex
     getOrders().then(data => {
         res.status(201).send(data)
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(new ApiError('', 500))
     })
 })
 
@@ -34,19 +29,12 @@ router.get('/:id', authenticate, authorize('GET_order-cart-items/:id'), (req, re
     const id = req.params.id
     getOrderByID(id).then(data => {
         if (data.length === 0) {
-            next({
-                code: 'not found',
-                status: 404,
-                message: `The order with this Id: ${id} not found`
-            })
+            next(new ApiError(`The order with this Id: ${id} not found`, 404))
         } else {
             res.status(201).send(data)
         }
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(new ApiError('', 500))
     })
 })
 

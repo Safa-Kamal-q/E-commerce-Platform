@@ -1,6 +1,7 @@
 import express from 'express';
 import { NSUser } from '../../@types/userType.js';
 import { Role } from '../../db/entities/Role.js';
+import ApiError from '../errorHandlers/apiError.js';
 
 const authorize = (api: string) => {
   return (
@@ -17,11 +18,7 @@ const authorize = (api: string) => {
       res.locals.user= res.locals.user
       next();
     } else {
-      next({
-        code: 'authorize',
-        status: 403,
-        message: "You don't have the permission to access this resource!"
-      })
+      next(new ApiError("You don't have the permission to access this resource!", 403))
     }
   }
 }

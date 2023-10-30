@@ -1,6 +1,7 @@
 import express from 'express';
 import { insertUser, login } from '../controllers/authController.js';
 import { validateUser } from '../middlewares/validation/user.js';
+import ApiError from '../middlewares/errorHandlers/apiError.js';
 
 const router = express.Router();
 
@@ -8,10 +9,7 @@ router.post("/register", validateUser, (req, res, next) => {
     insertUser(req.body).then(() => {
         res.status(201).send('user added successfully');
     }).catch(err => {
-        next({
-            status: 500,
-            message: "Something went wrong"
-        })
+        next(new ApiError('', 500))
     });
 });
 
@@ -34,11 +32,7 @@ router.post("/login", (req, res, next) => {
             res.send(data);
         })
         .catch(err => {
-            next({
-                code: 'authenticate',
-                status: 401,
-                message: err
-            })
+            next(new ApiError('err', 401)) 
         })
 });
 

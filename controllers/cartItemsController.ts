@@ -4,19 +4,20 @@ import { ShoppingCart } from "../db/entities/ShoppingCart.js";
 import { ShoppingCartItem } from "../db/entities/ShoppingCartItems.js";
 import express from 'express'
 import dataSource from "../db/dataSource.js";
+import ApiError from "../middlewares/errorHandlers/apiError.js";
 
 const insertCartItem = async (payload: NSCart.cartItem, cart: ShoppingCart, existProduct: Product) => {
     return dataSource.manager.transaction(async transaction => {
         try {
-            const price =payload.quantity*existProduct.price
-            
+            const price = payload.quantity * existProduct.price
+
             const newCartItem = ShoppingCartItem.create({
                 ...payload,
                 price
             });
 
-            if(existProduct && cart){
-                cart.totalPrice+=payload.quantity*existProduct.price;
+            if (existProduct && cart) {
+                cart.totalPrice += payload.quantity * existProduct.price;
                 await transaction.save(cart);
             }
 
@@ -54,7 +55,7 @@ const getAllCartItems = async (cartId: string) => {
     }
 }
 
-const deleteCartItem = async (id: string, res: express.Response) => {
+const deleteCartItem = async (id: string, res: express.Response, next: express.NextFunction) => {
     try {
         const cartItem = await ShoppingCartItem.findOneBy({ id });
         if (cartItem) {
@@ -65,11 +66,11 @@ const deleteCartItem = async (id: string, res: express.Response) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).send("Something went wrong")
+        next(new ApiError('', 500))
     }
 }
 
-const updateCartItem = async (id: string, payload: NSCart.cartItem, res: express.Response) => {
+const updateCartItem = async (id: string, payload: NSCart.cartItem, res: express.Response, next: express.NextFunction) => {
     try {
         const existingCartItem = await ShoppingCartItem.findOneBy({ id })
 
@@ -83,7 +84,7 @@ const updateCartItem = async (id: string, payload: NSCart.cartItem, res: express
         }
     } catch (error) {
         console.log(error)
-        res.status(500).send("Something went wrong")
+        next(new ApiError('', 500))
     }
 
 }

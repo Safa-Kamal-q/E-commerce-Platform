@@ -16,7 +16,12 @@ const errorSender = (
     req: express.Request,
     res: express.Response,
     next: express.NextFunction) => {
-    res.status(error.status).send(error.message);
+        error.statusCode =  error.statusCode || 500
+        error.status = error.status || 'error'
+    res.status(error.statusCode).json({
+        error, 
+        message: error.message
+    })
 }
 
 const error404Handler = (
