@@ -20,9 +20,6 @@ afterAll(async () => {
 });
 
 
-
-
-
 import { login } from "../dist/controllers/authController.js";
 import jwt from 'jsonwebtoken';
 
@@ -103,11 +100,11 @@ import { insertPermission } from "../dist/controllers/permissionController.js";
 
 describe("insertPermission", () => {
     it("should insert a permission", async () => {
-        const payload = { name: "POST_role/test6" };
+        const payload = { name: "PUT_users/" };
 
         const result = await insertPermission(payload);
 
-        expect(result.name).toBe("POST_role/test6");
+        expect(result.name).toBe("PUT_users/");
     });
 });
 
@@ -116,12 +113,12 @@ import permissionRouter from "../dist/routers/permissionRouter.js";
 app.use("/permissions", permissionRouter);
 
 describe('POST /permissions', () => {
-    it('should return a 200 status code ', async () => {
+    it('should return a 201 status code ', async () => {
 
         const response = await request(app)
             .post('/permissions')
             .set('Authorization', validToken.token)
-            .send({ name: "POST_permissions/test11" });
+            .send({ name: "GET_users/:email" });
         expect(response.status).toBe(201);
 
         expect(response.text).toBe("Permission added successfully");
@@ -139,7 +136,7 @@ describe('POST /permissions', () => {
         const response = await request(app)
             .post('/permissions')
             .set('Authorization', '11')
-            .send({ name: "Post_permissions/test11" });
+            .send({ name: "GET_users/:email" });
 
         expect(response.status).toBe(401);
     });
@@ -184,7 +181,6 @@ describe('POST /roles', () => {
             .send({
                 "name": "admin",
                 "permissions": ["1", "2", "3"]
-
             })
 
         expect(response.status).toBe(201);
@@ -209,7 +205,7 @@ describe('POST /roles', () => {
         expect(response.status).toBe(400);
     });
 
-    it('should return a 400 if name of role not seller | admin | buyer ', async () => {
+    it('should return a 400 if name already exist in DB ', async () => {
         const response = await request(app)
             .post('/roles')
             .set('Authorization', validToken.token)
