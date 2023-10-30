@@ -13,6 +13,7 @@ import productRouter from './routers/productRouter.js'
 import cartItemsRouter from './routers/cartItemsRouter.js'
 import orderOneProductRouter from './routers/orderOneProductRouter.js'
 import orderCartItems from './routers/orderCartItemRouter.js'
+import searchRouter from './routers/searchRouter.js'
 
 import { error404Handler, errorLogger, errorSender } from './middlewares/errorHandlers/genericHandler.js';
 
@@ -30,22 +31,11 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-
-initDB().then(() => {
-  console.log("Connected to DB!");
-}).catch((err: any) => {
-  console.error('Failed to connect to DB: ' + err);
-});
-///////////////////////////////
 // initDB().then(() => {
 //   console.log("Connected to DB!");
 // }).catch((err: any) => {
 //   console.error('Failed to connect to DB: ' + err);
 // });
-////////////////////////
-
 
 app.get('/', (req, res) => {
   res.send('Server UP!');
@@ -60,6 +50,7 @@ app.use('/products', productRouter)
 app.use('/cart-items', cartItemsRouter)
 app.use('/order-one-product', orderOneProductRouter)
 app.use('/order-cart-items', orderCartItems)
+app.use('/search', searchRouter)
 
 app.use(errorLogger);
 app.use(errorSender);

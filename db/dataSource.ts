@@ -14,17 +14,15 @@ import { OrderCartItem } from "./entities/OrderCartItem.js";
 import baseLogger from "../logger.js";
 dotenv.config(); // Load environment variables from .env file
 
-
-
 //////////////////////////////////////
-// // this to test locally 
 // const dataSource = new DataSource({
 //     type: 'mysql',
-//     host: process.env.MYSQL_ADDON_HOST,
-//     port: Number(process.env.MYSQL_ADDON_PORT),
-//     username: process.env.MYSQL_ADDON_USER,
-//     password: process.env.MYSQL_ADDON_PASSWORD,
-//     database: process.env.MYSQL_ADDON_DB,
+//     host: process.env.DB_HOST,
+//     port: Number(process.env.DB_PORT),
+//     // username: process.env.DB_USER,
+//     username: 'admin',
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_NAME,
 //     entities: [
 //         User,
 //         Role,
@@ -40,25 +38,14 @@ dotenv.config(); // Load environment variables from .env file
 //     synchronize: true, // Set to true for development; consider migrations for production
 //     logging: false, // Set to true to log SQL queries (for debugging)
 // });
+/////////////////////////////////
 
-// export const initDB = async () =>
-//     await dataSource.initialize().then(() => {
-//         console.log('DB connected');
-//     }).catch(err => {
-//         console.log("DB connection failed", err);
-//     });
-
-
-
-
-//////////////////////////////////////
-// this to test locally 
 const dataSource = new DataSource({
     type: 'mysql',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
-    // username: process.env.DB_USER,
-    username: 'admin',
+    username: process.env.DB_USER,
+    //username: 'root',
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     entities: [
@@ -66,17 +53,16 @@ const dataSource = new DataSource({
         Role,
         Product,
         Permission,
-        OrderOneProduct,
-        ShoppingCart,
         OrderCartItem,
+        ShoppingCart,
+        OrderOneProduct,
         ShoppingCartItem,
         PaymentInfo,
         SellerProfile
     ],
-    synchronize: true, // Set to true for development; consider migrations for production
-    logging: false, // Set to true to log SQL queries (for debugging)
+    synchronize: true, 
+    logging: false, 
 });
-
 
 export const initDB = async () =>
     await dataSource.initialize().then(() => {
