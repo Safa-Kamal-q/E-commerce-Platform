@@ -8,9 +8,9 @@ import ApiError from '../middlewares/errorHandlers/apiError.js'
 const router = express.Router()
 
 router.post('/', authenticate, authorize('POST_order-cart-items/'), validateOrderCartItem, async (req, res, next) => {
-    const paymentInfo = res.locals.user?.paymentInfo
+    const user = res.locals.user
 
-    createOrderFromCart(req.body, paymentInfo).then(() => {
+    createOrderFromCart(req.body, user).then(() => {
         res.status(201).send("Order created successfully")
     }).catch(err => {
         next(new ApiError('', 500))

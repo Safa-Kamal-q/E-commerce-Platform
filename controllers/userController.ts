@@ -37,7 +37,7 @@ const updateUserInfo = async (id: string, payload: User) => {
 
 const updatePassword = async (existUser: User, newPassword: string) => {
     try {
-
+        
         existUser.password = await bcrypt.hash(newPassword, 10)
         await User.save(existUser);
         return existUser

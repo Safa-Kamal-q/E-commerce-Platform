@@ -7,7 +7,9 @@
 - **[Installation and Usage](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-installation-and-usage)**
 - **[Libraries](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-libraries)**
 - **[API documentation](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-api-documentation)**
+- **[Database Schema](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-database-schema)**
 - **[Contributing](https://github.com/Safa-Kamal-q/E-commerce-Platform#%EF%B8%8F-contributing)**
+
 
 ## ✨️ Introduction
 ***XpressCart*** this is our project name and it is a back-end ***E-commerce Platform*** project
@@ -103,6 +105,9 @@ The main objective of this project is to create a robust backend system for an E
 
 ## ✨️ API Documentation
 You can see it by clicking [here](https://innovative-starfish-d94.notion.site/API-Documentation-d9708f04b5fe408e8dc30e9d2fae15f8?pvs=4) 
+
+## ✨️ Database Schema  
+You can see it by clicking [here](https://dbdiagram.io/d/XpressCart-database-schema-65400908ffbf5169f0c2425d)
 
 ## ✨️ Contributing
 Thank you for your time.🌼 Contributions to the project are welcome. If you find a bug or want to add a new feature, please create a new issue or pull request.

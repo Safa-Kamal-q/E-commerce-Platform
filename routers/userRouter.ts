@@ -38,10 +38,10 @@ router.get('/:email', authenticate, authorize('GET_users/:email'), (req, res, ne
 //must send email and password and password as query 
 router.put('/password/', authenticate, authorize("PUT_users/password/"),
     validateNewPassword, async (req, res, next) => {
-        const existUser = res.locals.existUser
+        const existUser1 = res.locals.existUser
         const newPassword = req.body.newPassword
 
-        updatePassword(existUser, newPassword).then(data => {
+        updatePassword(existUser1, newPassword).then(data => {
             res.status(200).send("Your password has been successfully updated.")
         }).catch(error => {
             console.log(error)

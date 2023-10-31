@@ -20,19 +20,19 @@ router.post("/login", (req, res, next) => {
     login(email, password)
         .then(data => {
             res.cookie('fullName', data.fullName, {
-                maxAge: 60 * 60 * 1000
+                maxAge: 60 * 60 * 60 * 1000
             });
             res.cookie('loginTime', Date.now(), {
-                maxAge: 60 * 60 * 1000
+                maxAge: 60 * 60 * 60 * 1000
             });
             res.cookie('token', data.token, {
-                maxAge: 60 * 60 * 60 * 1000
+                maxAge: 60 * 60 * 60 * 60 * 1000
             });
 
             res.send(data);
         })
         .catch(err => {
-            next(new ApiError('err', 401)) 
+            next(new ApiError('err', 401))
         })
 });
 
