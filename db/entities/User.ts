@@ -47,6 +47,12 @@ export class User extends BaseEntity {
     })
     createdAt: Date;
 
+    @Column({ nullable: true })
+    passwordResetToken: string
+
+    @Column({ nullable: true })
+    passwordResetTokenExpires: Date 
+
     @ManyToMany(() => Role, { eager: true })
     @JoinTable()
     roles: string[] | Role[];

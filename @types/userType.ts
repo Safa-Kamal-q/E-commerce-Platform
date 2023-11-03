@@ -6,9 +6,9 @@ export namespace NSUser {
     admin = "admin"
   }
 
-  export enum AccountType{
-    current='current', 
-    saving= 'saving'
+  export enum AccountType {
+    current = 'current',
+    saving = 'saving'
   }
 
   export interface SingleUser {
@@ -24,11 +24,13 @@ export namespace NSUser {
     orders: string[]
     cart?: string //it will be id for single cart 
     paymentInfo?: string  //it will be id for single paymentInfo
+    passwordResetTokenExpires?: Date | null
+    passwordResetToken?: string | null
 
     //This is for buyer type to add payment info 
-    nameForReceipt? : string 
-    city?: string 
-    fullAddress?: string 
+    nameForReceipt?: string
+    city?: string
+    fullAddress?: string
 
     //this is for seller type to create seller profile 
     identityNumber?: number
@@ -42,7 +44,7 @@ export namespace NSUser {
   export interface Role {
     id: string;
     name: UserType;
-    permissions: number [];
+    permissions: number[];
   }
 
   export interface Permission {

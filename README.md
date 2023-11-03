@@ -25,6 +25,7 @@ The main objective of this project is to create a robust backend system for an E
 ## ✨️ Features
 
 - User authentication and authorization
+- Handle forget password case
 - Product listing and management
 - Order listing and management
 - Shopping cart functionality
@@ -32,7 +33,6 @@ The main objective of this project is to create a robust backend system for an E
 - Data storage using Amazon RDS
 - Static asset hosting with Amazon S3 for products' images
 - Continuous integration using AWS CodePipeline and CodeBuild
-- Search functionality with AWS Elasticsearch 
 
 
 ## ✨️ Tech Stack

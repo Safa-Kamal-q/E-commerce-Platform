@@ -1,11 +1,11 @@
 import './config.js';
 import express from 'express';
 import "reflect-metadata"
-import mysql from 'mysql2'
 import baseLogger from './logger.js';
 import {initDB} from './db/dataSource.js'
 import authRouter from './routers/authRouter.js'
 import userRouter from './routers/userRouter.js'
+import forgetPasswordRouter from './routers/forgetPasswordRouter.js'
 import roleRouter from './routers/roleRouter.js'
 import paymentRoute from './routers/paymentRouter.js';
 import permissionRouter from './routers/permissionRouter.js'
@@ -16,10 +16,6 @@ import orderCartItems from './routers/orderCartItemRouter.js'
 import searchRouter from './routers/searchRouter.js'
 
 import { error404Handler, errorLogger, errorSender } from './middlewares/errorHandlers/genericHandler.js';
-
-import cors from 'cors'; // Import the cors middleware
-import Stripe from 'stripe';
-
 
 const app = express();
 const PORT = 3000;
@@ -44,6 +40,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', authRouter);
 app.use('/users', userRouter);
+app.use('/users', forgetPasswordRouter)
 app.use('/roles', roleRouter)
 app.use('/permissions', permissionRouter)
 app.use('/products', productRouter)
