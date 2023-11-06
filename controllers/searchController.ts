@@ -1,15 +1,28 @@
-import { ILike } from "typeorm";
+import { NSFilter } from "../@types/filters.js";
 import { Product } from "../db/entities/Product.js";
 
-const search = async (keyword: string, page: number, pageSize: number) => {
+const search = async (keyword: string, page: number, pageSize: number, filters: NSFilter.filter, orderBy: string, sortOrder: string) => {
     try {
-        const skipAmount = (page - 1) * pageSize; // Calculate how many items to skip based on the page number and limit
+        const skipAmount = (page - 1) * pageSize;
 
-        const [products, totalCount] = await Product.createQueryBuilder('product')
+        const query = Product.createQueryBuilder('product')
             .where('LOWER(product.title) LIKE :keyword', { keyword: `%${keyword}%` })
             .orWhere('LOWER(product.description) LIKE :keyword', { keyword: `%${keyword}%` })
-            .take(pageSize) // Limit the number of items per page
-            .skip(skipAmount) // Skip the necessary number of items based on pagination
+
+        if (filters.minPrice) {
+            query.andWhere('product.price >= :minPrice', { minPrice: Number(filters.minPrice) })
+        }
+        if (filters.maxPrice) {
+            query.andWhere('product.price <= :maxPrice', { maxPrice: Number(filters.maxPrice) })
+        }
+
+        const direction = sortOrder === 'desc' ? 'DESC' : 'ASC';
+        query.orderBy(`product.${orderBy}`, direction);
+
+
+        const [products, totalCount] = await query
+            .take(pageSize)
+            .skip(skipAmount)
             .getManyAndCount();
 
         return {

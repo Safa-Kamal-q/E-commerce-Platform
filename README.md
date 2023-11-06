@@ -29,6 +29,7 @@ The main objective of this project is to create a robust backend system for an E
 - Product listing and management
 - Order listing and management
 - Shopping cart functionality
+- Search method and filter result as user want
 - Integration with Stripe for payment processing
 - Data storage using Amazon RDS
 - Static asset hosting with Amazon S3 for products' images
@@ -100,8 +101,12 @@ The main objective of this project is to create a robust backend system for an E
 * reflect-metadata: Library for reflecting metadata in TypeScript.
 * jsonwebtoken: Library for working with JSON Web Tokens.
 * bcrypt: Library for hashing passwords securely.
-* winston: to add logger.
-* multer: for reading files from postman (image file).
+* winston: To add logger.
+* multer: For reading files from postman (image file).
+* supertest: for unit testing
+* libphonenumber-js: To validate phone number value(must be palestinian number only)
+* nodemailer: Send emails for mailtrap.io from Node.js
+* crypto-js: To generate unique reset password token 
 
 ## ✨️ API Documentation
 You can see it by clicking [here](https://innovative-starfish-d94.notion.site/API-Documentation-d9708f04b5fe408e8dc30e9d2fae15f8?pvs=4) 

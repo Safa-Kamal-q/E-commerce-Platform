@@ -10,7 +10,6 @@ const errorLogger = (
     next(error);
 }
 
-//need fix 
 const errorSender = (
     error: any,
     req: express.Request,

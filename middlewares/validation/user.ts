@@ -32,8 +32,6 @@ const validateUser = async (req: express.Request, res: express.Response, next: N
                 errorList.push(`${key} is require for buyer user to add payment info `)
             }
         })
-        // if our project for palestine only I must add more validation for numbers (+970, +972)
-
     }
 
     if (user.type === 'seller') {

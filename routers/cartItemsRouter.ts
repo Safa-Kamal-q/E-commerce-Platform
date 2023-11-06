@@ -32,7 +32,7 @@ router.get('/:id', authenticate, authorize('GET_cart-items/:id'), (req, res, nex
     getCartItemByID(id).then(data => {
         if (data.length === 0) {
             next(new ApiError(`The cart-items with this Id: ${id} not found`, 404))
-            
+
         } else {
             res.status(200).send(data)
         }
@@ -53,10 +53,13 @@ router.get(
         });
 
         if (!existingCart) {
-            next(new ApiError(`The cart doesn't exist or the cart has no items yet`, 404))
+            next(new ApiError(`The cart doesn't exist`, 404))
 
         } else {
             getAllCartItems(id).then(data => {
+                if (data.length === 0) {
+                    res.status(200).json("This cart hasn't have items yet")
+                }
                 res.status(200).send(data)
             }).catch(err => {
                 next(next(new ApiError('', 500)))

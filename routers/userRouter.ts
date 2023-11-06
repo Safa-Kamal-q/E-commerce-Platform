@@ -35,7 +35,7 @@ router.get('/:email', authenticate, authorize('GET_users/:email'), (req, res, ne
 })
 
 
-//must send email and password and password as query 
+//must send email and password as query 
 router.put('/password/', authenticate, authorize("PUT_users/password/"),
     validateNewPassword, async (req, res, next) => {
         const existUser1 = res.locals.existUser

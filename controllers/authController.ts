@@ -11,7 +11,6 @@ import { SellerProfile } from "../db/entities/SellerProfile.js";
 
 //when the type is seller it will build paymentInfo
 //we will build cart for all user type except admin 
-//must we add profile for seller? 
 const insertUser = async (payload: NSUser.SingleUser) => {
     return dataSource.manager.transaction(async transaction => {
         try {

@@ -27,12 +27,6 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// initDB().then(() => {
-//   console.log("Connected to DB!");
-// }).catch((err: any) => {
-//   console.error('Failed to connect to DB: ' + err);
-// });
-
 app.get('/', (req, res) => {
   res.send('Server UP!');
 });
@@ -58,9 +52,7 @@ app.use(error404Handler);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   baseLogger.info(`App is running and Listening on port ${PORT}`);
-  ///////////////
   initDB();
-  ///////////////
 });
 
 
