@@ -12,7 +12,13 @@ router.get('/:keyword', (req, res, next) => {
     const pageSize = parseInt(req.query.pageSize as string || '10');
     const keyword = req.params.keyword.toLowerCase()
 
-    const filters = (JSON.parse(req.query.filters as string) || []) as NSFilter.filter
+    let filters
+    if (req.query.filters) {
+        filters = (JSON.parse(req.query.filters as string)) as NSFilter.Filter
+    } else {
+        filters = []
+    }
+
     const orderBy = (req.query.orderBy || 'createdAt') as string
     const sortOrder = (req.query.sortOrder || 'desc') as string
 

@@ -4,6 +4,7 @@ import { Role } from "./Role.js";
 import { ShoppingCart } from "./ShoppingCart.js";
 import { PaymentInfo } from "./PaymentInfo.js";
 import { SellerProfile } from "./SellerProfile.js";
+import { Review } from "./Review.js";
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -68,4 +69,10 @@ export class User extends BaseEntity {
     @OneToOne(() => SellerProfile)
     @JoinColumn()
     sellerProfile: SellerProfile
+
+    @OneToMany(() => Review, review => review.user)
+    reviews: Review[];
+
+    @Column()
+    rating: number
 }

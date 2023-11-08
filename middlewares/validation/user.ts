@@ -2,6 +2,8 @@ import express, { NextFunction } from 'express';
 import isEmail from 'validator/lib/isEmail.js'; // npm i validator
 import { User } from '../../db/entities/User.js';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
+import { Role } from '../../db/entities/Role.js';
+import { In } from 'typeorm';
 
 
 const validateUser = async (req: express.Request, res: express.Response, next: NextFunction) => {
@@ -17,6 +19,14 @@ const validateUser = async (req: express.Request, res: express.Response, next: N
             errorList.push(`${key} is require`)
         }
     })
+
+    const foundRoles = await Role.findBy({ id: In(user.roles) });
+
+    if (foundRoles.length !== user.roles.length) {
+        const foundRolesIds = foundRoles.map(role => role.id);
+        const notFoundRoles = user.roles.filter((roleId: string) => !foundRolesIds.includes(roleId));
+        errorList.push(`Roles with these ids: [${notFoundRoles}] not found:`)
+    }
 
     if (user.type !== 'admin') {
         roleValues.forEach(key => {

@@ -1,6 +1,8 @@
-import { CreateDateColumn, PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, OneToMany } from "typeorm";
+import { CreateDateColumn, PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { SellerProfile } from "./SellerProfile.js";
 import { OrderOneProduct } from "./OrderOneProduct.js";
+import { Category } from "./Category.js";
+import { Review } from "./Review.js";
 
 
 @Entity('products')
@@ -26,6 +28,15 @@ export class Product extends BaseEntity {
     @Column('simple-array')
     galleryImages: string[];
 
+    @Column({ type: 'numeric', precision: 3, scale: 1, default: 0 })
+    ratingAvg: number
+
+    @Column({ type: 'numeric', precision: 3, scale: 1, default: 0 })
+    ratingSum: number
+
+    @Column({ default: 0 })
+    ratingQuantity: number
+
     @CreateDateColumn({
         type: 'timestamp',
         default: () => "CURRENT_TIMESTAMP()"
@@ -45,4 +56,11 @@ export class Product extends BaseEntity {
 
     @OneToMany(() => OrderOneProduct, order => order.product)
     orders: OrderOneProduct[];
+
+    @ManyToMany(() => Category, { eager: true })
+    @JoinTable()
+    categories: string[] | Category[];
+
+    @OneToMany(() => Review, review => review.product)
+    reviews: Review[];
 }

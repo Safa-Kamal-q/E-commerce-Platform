@@ -12,6 +12,8 @@ import { SellerProfile } from "./entities/SellerProfile.js";
 import { OrderCartItem } from "./entities/OrderCartItem.js";
 
 import baseLogger from "../logger.js";
+import { Category } from "./entities/Category.js";
+import { Review } from "./entities/Review.js";
 dotenv.config(); // Load environment variables from .env file
 
 const dataSource = new DataSource({
@@ -31,7 +33,9 @@ const dataSource = new DataSource({
         OrderOneProduct,
         ShoppingCartItem,
         PaymentInfo,
-        SellerProfile
+        SellerProfile,
+        Category, 
+        Review
     ],
     synchronize: true, 
     logging: false, 

@@ -32,7 +32,7 @@ router.post("/login", (req, res, next) => {
             res.send(data);
         })
         .catch(err => {
-            next(new ApiError('err', 401))
+            next(new ApiError(err, 401))
         })
 });
 

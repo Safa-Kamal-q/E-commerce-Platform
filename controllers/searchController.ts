@@ -1,7 +1,7 @@
 import { NSFilter } from "../@types/filters.js";
 import { Product } from "../db/entities/Product.js";
 
-const search = async (keyword: string, page: number, pageSize: number, filters: NSFilter.filter, orderBy: string, sortOrder: string) => {
+const search = async (keyword: string, page: number, pageSize: number, filters: NSFilter.Filter | any, orderBy: string, sortOrder: string) => {
     try {
         const skipAmount = (page - 1) * pageSize;
 

@@ -32,7 +32,9 @@ router.post(
             return next(new ApiError("the field name for product's image must be 'image'.", 400))
         }
 
-        insertProduct(req.body, req.file).then(data => {
+        const categories=res.locals.foundCategories
+
+        insertProduct(req.body, req.file, categories).then(data => {
             res.status(201).send('The product added successfully')
         }).catch(err => {
             next(new ApiError('', 500))

@@ -2,16 +2,18 @@ import { NSProduct } from "../@types/productType.js";
 import { Product } from "../db/entities/Product.js";
 import express from 'express'
 import { uploadFile } from "../s3.js";
+import { Category } from "../db/entities/Category.js";
 
-const insertProduct = async (payload: NSProduct.Item, imageFile: Express.Multer.File) => {
+const insertProduct = async (payload: NSProduct.Item, imageFile: Express.Multer.File, categories: Category[]) => {
     try {
         const result = await uploadFile(imageFile)
 
         const newProduct = Product.create({
             ...payload,
-            basicImage: result.Location//we will store the basic image URL 
+            basicImage: result.Location,//we will store the basic image URL 
+            categories
         });
-
+        
         await newProduct.save()
         return newProduct;
 
@@ -60,6 +62,7 @@ const deleteProduct = async (id: string, res: express.Response) => {
     }
 }
 
+//I must update the code if the user want to change the image
 const updateProduct = async (id: string, payload: NSProduct.Item, res: express.Response) => {
     try {
         const existingProduct = await Product.findOneBy({ id })

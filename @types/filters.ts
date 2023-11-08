@@ -1,6 +1,6 @@
 export namespace NSFilter {
     
-    export interface filter {
+    export interface Filter {
         minPrice?: number
         maxPrice?: number
     }

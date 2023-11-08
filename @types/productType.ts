@@ -1,3 +1,5 @@
+import { NSCategory } from "./categoryType.js"
+
 export namespace NSProduct {
     export interface Item {
         id: string
@@ -9,5 +11,6 @@ export namespace NSProduct {
         basicImage: string
         sellerProfile: string,
         galleryImages: string[]
+        categories: string [] | NSCategory.Category[]
     }
 }

@@ -29,6 +29,8 @@ The main objective of this project is to create a robust backend system for an E
 - Product listing and management
 - Order listing and management
 - Shopping cart functionality
+- Categories functionality, category's products listing
+- Review management, stars and comments
 - Search method and filter result as user want
 - Integration with Stripe for payment processing
 - Data storage using Amazon RDS
